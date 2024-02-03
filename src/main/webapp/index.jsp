@@ -6,14 +6,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dashboard</title>
-    <%@include file="components/common_css_js.jsp" %>
-    
+    <link rel="icon" type="image/png" href="images/l_img.png" />
+
   </head>
   <body>
+    <%@include file="components/nav.jsp"%>
     <h1>Hello World!</h1>
-    <h1>Creating Session factory object</h1>
-    <h1>Creating Session factory object</h1>
-    <h1>Creating Session factory object</h1>
     <h1>Creating Session factory object</h1>
     
     <% 

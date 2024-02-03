@@ -1,0 +1,307 @@
+
+/* 
+    Created on : 1 Feb 2024, 10:02:31
+    Author     : Dell
+*/
+:root {
+  --primary-color: #ad9551;
+  --action-color: #d1b870;
+  --ternery-color: #efd896;
+  --back-color: #ffffff;
+  --text-color: #000000;
+  --back-alt-color: #555555;
+  --text-alt-color: #efeaea;
+  --logo-alt-color: #555555;
+  --ternery-alt-color: #ddcbcb;
+  --font-size: 26px;
+}
+:root {
+  --primary: var(--primary-color);
+  --action: var(--action-color);
+  --ternery: var(--ternery-color);
+  --back: var(--back-color);
+  --text: var(--text-color);
+  --back-alt: var(--back-alt-color);
+  --text-alt: var(--text-alt-color);
+  --ternery-alt: var(--ternery-alt-color);
+  --font-size: 26px;
+}
+@font-face {
+  font-family: Cinzel;
+  src: url(Cinzel/static/Cinzel-Regular.ttf);
+}
+@font-face {
+  font-family: Cinzel-Variable;
+  src: url(Cinzel/Cinzel-VariableFont_wght.ttf);
+  font-weight: 500;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  background-color: var(--ternery);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: Cinzel-Variable;
+}
+#navImage {
+  width: auto;
+  height: 50px;
+}
+nav {
+  background-color: white;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
+nav .navbar {
+  width: 100%;
+  list-style: none;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: var(--back);
+  z-index: 100;
+}
+nav .navbar li {
+  height: 50px;
+  position: relative;
+  background-color: var(--back);
+}
+
+nav .navbar a {
+  height: 100%;
+  padding: 0 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  transition: 0.25s;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  list-style: none;
+  z-index: 999;
+  background-color: var(--back);
+  /* backdrop-filter: blur(100px); */
+  /* how elements behind current element should be rendered by browser */
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.navbar li a i,
+.sidebar li a i {
+  color: var(--text);
+  font-size: 25px;
+}
+.navbar li a:hover i,
+.sidebar li a:hover i {
+  color: var(--back);
+}
+
+.sidebar li a {
+  height: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  transition: 0.25s;
+}
+nav .navbar li a:hover,
+nav .sidebar li a:hover {
+  background-color: var(--action);
+  color: var(--back);
+}
+nav .navbar li:nth-child(2) {
+  margin-right: auto;
+}
+.sidebar li {
+  width: 100%;
+  height: 50px;
+  background-color: var(--back);
+}
+
+.menu-button {
+  display: none;
+}
+
+.navbar #categories-dropdown,
+.sidebar #categories-dropdown,
+.navbar #user-dropdown,
+.sidebar #user-dropdown {
+  display: none;
+}
+
+.navbar li:hover #categories-dropdown {
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 999;
+  left: 0;
+  top: 100%;
+  background-color: var(--back);
+}
+
+.navbar li:hover #user-dropdown {
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 999;
+  right: 0;
+  top: 100%;
+  background-color: var(--back);
+}
+.sidebar li:hover #categories-dropdown,
+.sidebar li:hover #user-dropdown {
+  background-color: var(--back);
+}
+
+.navbar #categories-dropdown a:hover,
+.sidebar #categories-dropdown a:hover,
+.navbar #user-dropdown a:hover,
+.sidebar #user-dropdown a:hover {
+  background-color: var(--action);
+}
+#categories-dropdown ul,
+#user-dropdown ul {
+  list-style: none;
+  width: 100%;
+}
+
+.navbar #categories-dropdown ul li,
+.navbar #user-dropdown ul li {
+  width: auto;
+}
+.sidebar #categories-dropdown,
+.sidebar #user-dropdown {
+  width: 100%;
+}
+
+.drop-open {
+  animation: open 0.3s ease-in-out forwards;
+}
+@keyframes open {
+  0% {
+    transform: scaleY(0);
+    max-height: 0px;
+  }
+  100% {
+    transform: scaleY(1);
+    max-height: 200px;
+  }
+}
+.drop-close {
+  animation: close 0.3s ease-in-out forwards;
+}
+@keyframes close {
+  0% {
+    transform: scaleY(1);
+    max-height: 200px;
+  }
+  100% {
+    transform: scaleY(0);
+    max-height: 0px;
+  }
+}
+.search {
+  position: relative;
+  margin-right: 70px;
+}
+.search-container {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+  width: 100%;
+}
+.search-container input {
+  width: 100%;
+  height: 30px;
+  padding: 2px;
+  padding-left: 45px;
+  border: 2px solid var(--primary);
+  border-radius: 20px;
+  /* outline: none; */
+  background-color: var(--back);
+  color: black;
+  position: relative;
+  font-family: Cinzel-Variable;
+}
+
+.search-container input::placeholder {
+  padding-left: 0px;
+  color: var(--text);
+}
+
+#search_button {
+  font-size: 25px;
+  border: none;
+  background: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+}
+
+@media (max-width: 800px) {
+  .hideOnMobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+  .search-container {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .search-container input {
+    width: 90%;
+    height: 40px;
+    padding: 0;
+    padding-left: 20px;
+    justify-content: center;
+    border: none;
+    border-radius: 20px;
+    /* outline: none; */
+    background-color: var(--back);
+    color: black;
+    position: relative;
+    font-family: Cinzel-Variable;
+
+  }
+
+  .search-container input::placeholder {
+    justify-content: center;
+    color: var(--text);
+  }
+
+  #search_button {
+    display: none;
+  }
+}
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+  }
+  .menu-button {
+    display: block;
+  }
+}
