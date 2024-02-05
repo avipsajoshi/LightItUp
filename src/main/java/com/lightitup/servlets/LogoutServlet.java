@@ -1,4 +1,3 @@
-
 package com.lightitup.servlets;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
  * @author Dell
  */
 public class LogoutServlet extends HttpServlet {
+
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");

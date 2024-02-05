@@ -13,7 +13,7 @@
     <title>Register Now!</title>
   </head>
   <body>
-    <%--<%@include file="components/nav.jsp"%>--%>
+    <%@include file="components/nav.jsp"%>
     <form method="post" id="register-form" action="./Register">
 
       <div class="formheader">
@@ -45,7 +45,7 @@
       </div>
       <div class="text-container">
         <label for="user_phone">Phone Number: </label
-        ><small id="number-error" class="error">Error</small><br />
+        ><small id="number-error" class="error"></small><br />
         <input type="text" id="phone" name="user_phone" />
       </div>
       <div class="text-container">
@@ -61,6 +61,6 @@
         <a href="login.jsp" id="register-href">Login Here</a>
       </div>
     </form>
-      <script src="/js/loginSignupValidation.js"></script>
+    <script src="js/loginSignupValidation.js"></script>
   </body>
 </html>

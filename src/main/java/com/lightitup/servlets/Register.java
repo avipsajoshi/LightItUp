@@ -32,7 +32,7 @@ public class Register extends HttpServlet {
       if(userName.isEmpty()){
         out.println("Name Cannot be blank");
       }
-      //creating new user object to store data
+      //creating new user object to store in db
       User user =new User(userName, userEmail, userPassword, userPhone, "./images/user.png", userAddress, "customer");
       
       //if using JDBC put code here
@@ -56,8 +56,8 @@ public class Register extends HttpServlet {
           response.sendRedirect("register.jsp"); // redirects to page
         }
         else{
-          httpSession.setAttribute("logged_user", user.getUserName());
-          response.sendRedirect("index.jsp");
+          httpSession.setAttribute("logged_user",user);
+          response.sendRedirect("./LoginServlet");
         }
         return; //so that code below this is not executed
       }

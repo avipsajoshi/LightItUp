@@ -15,9 +15,9 @@ body {
   background-repeat: no-repeat;
   overflow-x: hidden;
 }
-#register-form, 
+#register-form,
 #login-form {
-  overflow: hidden; 
+  overflow: hidden;
   background-color: var(--back);
   margin: auto;
   margin-top: 25px;
@@ -32,7 +32,7 @@ body {
   overflow: hidden;
   text-align: center;
   display: block;
-  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px 5px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.2);
 }
 
 #login-form{
@@ -43,7 +43,7 @@ body {
 .text-container {
   align-items: center;
   text-align: start;
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 
 }
 .text-container input,
@@ -81,7 +81,6 @@ textarea {
   cursor: pointer;
   font-size: large;
 
-  font-family: inherit;
   color: var(--back);
   transition: 0.3s;
 }
@@ -108,7 +107,7 @@ textarea {
 .invalid{
   color:red;
   font-style:italic;
-  font-size: medium; 
+  font-size: medium;
 }
 .error-message {
   color: red;

@@ -30,6 +30,7 @@
   --ternery-alt: var(--ternery-alt-color);
   font-size: 16px;
   font-weight: 500;
+  --boxShadow: 0;
 
-  font-family: Antic-Didone;
+  font-family: Antic-Didone !important;
 }

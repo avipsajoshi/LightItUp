@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.lightitup.servlets;
 
 import com.lightitup.dao.UserDao;
@@ -16,54 +12,62 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class LoginServlet extends HttpServlet {
+
   //  use processRequest as both post and get will call it
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     try (PrintWriter out = response.getWriter()) {
       /* TODO output your page here. You may use following sample code. */
-      try{
+      HttpSession httpSession = request.getSession();
+      try {
+        if (httpSession.getAttribute("logged_user") != null) {
+          User alreadyLogged = (User) httpSession.getAttribute("logged_user");
+//          response.sendRedirect("index.jsp");
+          if (alreadyLogged.getUserType().equals("admin")) {
+            //admin.jsp
+            response.sendRedirect("admin.jsp");
+          } else if (alreadyLogged.getUserType().equals("customer")) {
+            //client.jsp
+            response.sendRedirect("customer.jsp");
+          } else {
+          }
+        }
+      } catch (Exception e) {
+        //print error in console
+        e.printStackTrace();
+      }
+      try {
         //get request from form
         String userEmail = request.getParameter("user_email");
         String userPassword = request.getParameter("user_password");
-      // validations
-      if(userEmail.isEmpty()){
-        out.println("Email Cannot be blank");
-      }
+        // validations
+        if (userEmail.isEmpty()) {
+          out.println("Email Cannot be blank");
+        }
         //creating new user object to fetch data
         //authenticatoion dao layer (data access object)
         UserDao userDao = new UserDao(FactoryProvider.getFactory());
         User logged_user = userDao.getUserByEmailandPass(userEmail, userPassword);
-        
-        
-        HttpSession httpSession = request.getSession();
-        if(logged_user ==null){
-          httpSession.setAttribute("message", "Unsuccessful. Please Try Again");
+        if (logged_user == null) {
+          httpSession.setAttribute("message", "Unsuccessful. Please Try Again!");
           // ("key", "value");
           response.sendRedirect("login.jsp");
           return;
-        }
-        else{
+        } else {
           httpSession.setAttribute("logged_user", logged_user);
 //          response.sendRedirect("index.jsp");
-           if (logged_user.getUserType().equals("admin")){
-              //admin.jsp
-             response.sendRedirect("admin.jsp");
-           }
-           else if(logged_user.getUserType().equals("customer")){
-             
-             //client.jsp
-             response.sendRedirect("customer.jsp");
-           }
-           else{
-             out.println("Error identifying user");
-           }
-
-           
-           
+          if (logged_user.getUserType().equals("admin")) {
+            //admin.jsp
+            response.sendRedirect("admin.jsp");
+          } else if (logged_user.getUserType().equals("customer")) {
+            //client.jsp
+            response.sendRedirect("customer.jsp");
+          } else {
+            out.println("Error identifying user");
+          }
         }
-      }
-      catch(Exception e){
+      } catch (Exception e) {
         //print error in console
         e.printStackTrace();
       }

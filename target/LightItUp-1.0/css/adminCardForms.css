@@ -1,0 +1,35 @@
+#category-form input, #product-form input{
+  padding: 15px;
+  margin-right: 10px;
+  width: 95%;
+  border: 1px solid var(--action);
+  outline: none;
+  border-radius: 16px;
+  color: var(--text);
+}
+
+.error-message {
+  color: red;
+  font-style: italic;
+  font-size: medium;
+}
+.submitBtn-category, .submitBtn-product {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 200px;
+  height: 40px;
+  border: none;
+  background-color: var(--action);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: large;
+
+  color: var(--back);
+  transition: 0.3s;
+}
+.submitBtn-category:hover,  .submitBtn-product:hover {
+  background-color: var(--back);
+  border: 2px solid var(--action);
+  color: var(--text);
+  transform: scale(1.01);
+}

@@ -14,7 +14,7 @@
     <title>Login</title>
   </head>
   <body>
-    <%--<%@include file="components/nav.jsp"%>--%>
+    <%@include file="components/nav.jsp"%>
     <form method="post" id="login-form" action="./LoginServlet">
 
       <div class="formheader">
@@ -41,7 +41,7 @@
         <a href="register.jsp" id="register-href">Register Now</a>
       </div>
     </form>
-    <script src="/js/loginSignupValidation.js"></script>
+    <script src="js/loginSignupValidation.js"></script>
 
   </body>
 </html>

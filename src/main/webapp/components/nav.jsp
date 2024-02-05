@@ -1,4 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page import="com.lightitup.entities.Category" %>
+<%@page import="com.lightitup.entities.Product" %>
+<%@page import="com.lightitup.entities.User" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +12,7 @@
     <title>Nav</title>
     <link rel="stylesheet" href="css/fontAndColors.css" />
     <link rel="stylesheet" href="css/navbarStyle.css" />
-    <link rel="icon" type="image/png" href="../images/l_img.png" />
+    <link rel="icon" type="image/png" href="LightItUp-1.0/webapp/images/l_img.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -96,7 +101,7 @@
   <body>
     
     <%
-      User user1 =(User) session.getAttribute("logged_user");
+      User user1 =(User)session.getAttribute("logged_user");
     %>
     <nav>
       <ul class="sidebar">
