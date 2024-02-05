@@ -1,5 +1,9 @@
 package com.lightitup.dao;
 
+
+
+//authenticatoion dao layer (data access object)
+
 import com.lightitup.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +26,7 @@ public class UserDao {
       
       q.setParameter("e", email);
       q.setParameter("p", pass);
-      
+      q.executeUpdate();
       user = (User) q.uniqueResult();
     }
     catch(Exception e){

@@ -18,9 +18,9 @@
     <form method="post" id="login-form" action="./LoginServlet">
 
       <div class="formheader">
-        <h1>Welcome Back!</h1>
-        <h5>Start Browsing</h5>
-        <p class="error"><%@include file="components/message.jsp" %></p>
+        <h3>Welcome Back!</h3>
+        <h4>Start Browsing</h4>
+        <p class="invalid"><%@include file="components/message.jsp" %></p>
       </div>
       <div class="text-container">
         <label for="user_email">Email:</label>
@@ -34,13 +34,15 @@
         <input type="password" id="password" name="user_password" />
       </div>
       <div class="submitBtn">
-        <button type="submit">Login</button>
+        <button type="submit" id="submitButton">Login</button>
       </div>
       <div class="register-href-div">
         <label>New Here? </label><br />
         <a href="register.jsp" id="register-href">Register Now</a>
       </div>
     </form>
+    <script src="/js/loginSignupValidation.js"></script>
+
   </body>
 </html>
 

@@ -11,11 +11,22 @@
   </head>
   <body>
     <%@include file="components/nav.jsp"%>
-    <h1>Hello World!</h1>
-    <h1>Creating Session factory object</h1>
-    
-    <% 
-      out.println(FactoryProvider.getFactory());
+    <%  
+      
+      user = session.getAttribute("logged_user");
+      if(user == null){
+        out.println("Error during login");
+        session.removeAttribute("logged_user");
+      }
+      else{
+        int logged = 1;
+      }
+      
     %>
+    <div >
+      <%  (logged) -> logged==1? out.println("Login Successful!");
+        //if (logged == 1){out.println("Login Successful!");}
+      %>
+    </div>
   </body>
 </html>

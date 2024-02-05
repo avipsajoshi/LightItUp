@@ -10,7 +10,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/fontAndColors.css" />
     <link rel="stylesheet" href="css/formStyle.css" />
-
     <title>Register Now!</title>
   </head>
   <body>
@@ -18,9 +17,9 @@
     <form method="post" id="register-form" action="./Register">
 
       <div class="formheader">
-        <h1>JOIN US!</h1>
-        <h5>Create Your Account</h5>
-        <p class="error"><%@include file="components/message.jsp" %></p>
+        <h3>JOIN US!</h3>
+        <h4>Create Your Account</h4>
+        <p class="invalid"><%@include file="components/message.jsp" %></p>
       </div>
       <div class="text-container">
         <label for="user_name">Full Name:</label>
@@ -55,12 +54,13 @@
         <textarea id="address" name="user_address"></textarea>
       </div>
       <div class="submitBtn">
-        <button type="submit">Register Now</button>
+        <button id="submitButton" type="submit">Register Now</button>
       </div>
       <div class="register-href-div">
         <label>Already have an account? </label><br />
         <a href="login.jsp" id="register-href">Login Here</a>
       </div>
     </form>
+      <script src="/js/loginSignupValidation.js"></script>
   </body>
 </html>

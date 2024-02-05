@@ -94,6 +94,10 @@
     </script>
   </head>
   <body>
+    
+    <%
+      User user1 =(User) session.getAttribute("logged_user");
+    %>
     <nav>
       <ul class="sidebar">
         <li onclick="hideSidebar()">
@@ -213,8 +217,21 @@
           <a href="#"><i class="fa-solid fa-user"></i></a>
           <div class="dropdown" id="user-dropdown">
             <ul class="dropdownList">
+              <%
+                if(user1==null){
+              %>
               <li><a href="./login.jsp">Login</a></li>
               <li><a href="./register.jsp">Sign Up</a></li>
+              <%
+                }
+                else{
+              %>
+              <li><a href="./profile.jsp"><%= user1.getUserName() %></a></li>
+              <li><a href="./LogoutServlet">Logout</a></li>
+              <%
+                }
+              %>
+              
             </ul>
           </div>
         </li>

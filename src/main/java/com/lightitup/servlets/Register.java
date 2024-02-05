@@ -1,6 +1,7 @@
 
 package com.lightitup.servlets;
 
+import com.lightitup.dao.UserDao;
 import com.lightitup.entities.User;
 import com.lightitup.helper.FactoryProvider;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Register extends HttpServlet {
         out.println("Name Cannot be blank");
       }
       //creating new user object to store data
-      User user =new User(userName, userEmail, userPassword, userPhone, "./images/user.png", userAddress, "normal");
+      User user =new User(userName, userEmail, userPassword, userPhone, "./images/user.png", userAddress, "customer");
       
       //if using JDBC put code here
       //open session 
@@ -40,7 +41,8 @@ public class Register extends HttpServlet {
         //first open transaction which will help us save work (ACID property of DB)
         Transaction tx = hibernateSession.beginTransaction();
         //save will take an object and saves data in user table return an id (same with persist but it doesnot return anything)
-        int userId = (int) hibernateSession.save(user);
+//        int userId = (int) hibernateSession.save(user);
+        hibernateSession.persist(user);
         //commit the changes
         tx.commit();
       hibernateSession.close();
@@ -51,8 +53,12 @@ public class Register extends HttpServlet {
         if(httpSession == null){
           httpSession.setAttribute("message", "Unsuccessful. Please Try Again");
         // ("key", "value");
+          response.sendRedirect("register.jsp"); // redirects to page
         }
-        response.sendRedirect("register.jsp"); // redirects to page
+        else{
+          httpSession.setAttribute("logged_user", user.getUserName());
+          response.sendRedirect("index.jsp");
+        }
         return; //so that code below this is not executed
       }
       catch(Exception e){

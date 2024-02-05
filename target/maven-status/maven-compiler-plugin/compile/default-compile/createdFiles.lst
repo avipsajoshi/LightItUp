@@ -1,5 +1,6 @@
 com\lightitup\helper\FactoryProvider.class
 com\lightitup\entities\Product.class
+com\lightitup\servlets\LogoutServlet.class
 com\lightitup\dao\UserDao.class
 com\lightitup\resources\JakartaEE10Resource.class
 com\lightitup\servlets\LoginServlet.class

@@ -105,8 +105,13 @@ textarea {
   color: var(--primary);
   transform: scale(1.01);
 }
-.error {
+.invalid{
+  color:red;
+  font-style:italic;
+  font-size: medium; 
+}
+.error-message {
   color: red;
   font-style: italic;
-  font-size: small;
+  font-size: medium;
 }

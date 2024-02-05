@@ -34,10 +34,33 @@ public class LoginServlet extends HttpServlet {
         //authenticatoion dao layer (data access object)
         UserDao userDao = new UserDao(FactoryProvider.getFactory());
         User logged_user = userDao.getUserByEmailandPass(userEmail, userPassword);
+        
+        
+        HttpSession httpSession = request.getSession();
         if(logged_user ==null){
-          HttpSession httpSession = request.getSession();
           httpSession.setAttribute("message", "Unsuccessful. Please Try Again");
-        // ("key", "value");
+          // ("key", "value");
+          response.sendRedirect("login.jsp");
+          return;
+        }
+        else{
+          httpSession.setAttribute("logged_user", logged_user);
+//          response.sendRedirect("index.jsp");
+           if (logged_user.getUserType().equals("admin")){
+              //admin.jsp
+             response.sendRedirect("admin.jsp");
+           }
+           else if(logged_user.getUserType().equals("customer")){
+             
+             //client.jsp
+             response.sendRedirect("customer.jsp");
+           }
+           else{
+             out.println("Error identifying user");
+           }
+
+           
+           
         }
       }
       catch(Exception e){
