@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nav</title>
+    <link rel="stylesheet" href="css/fontAndColors.css" />
     <link rel="stylesheet" href="css/navbarStyle.css" />
-    <link rel="icon" type="image/png" href="images/l_img.png" />
+    <link rel="icon" type="image/png" href="../images/l_img.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -149,8 +150,8 @@
           <a href="#"><i class="fa-solid fa-user"></i></a>
           <div class="dropdown" id="user-dropdown">
             <ul class="dropdownList">
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Sign Up</a></li>
+              <li><a href="./login.jsp">Login</a></li>
+              <li><a href="./register.jsp">Sign Up</a></li>
             </ul>
           </div>
         </li>
@@ -171,7 +172,7 @@
           ></a>
         </li>
         <li>
-          <a><img src="images/l_text.png" alt="????"  id="navImage"/></a>
+          <a href="./index.jsp"><img src="images/l_text.png" alt="????"  id="navImage"/></a>
         </li>
         <li class="hideOnMobile search">
           <div class="search-container">
@@ -192,7 +193,7 @@
             </form>
           </div>
         </li>
-        <li class="hideOnMobile"><a href="#">Home</a></li>
+        <li class="hideOnMobile"><a href="./index.jsp">Home</a></li>
         <li class="hideOnMobile">
           <a href="#">Categories</a>
           <div id="categories-dropdown">
@@ -212,8 +213,8 @@
           <a href="#"><i class="fa-solid fa-user"></i></a>
           <div class="dropdown" id="user-dropdown">
             <ul class="dropdownList">
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Sign Up</a></li>
+              <li><a href="./login.jsp">Login</a></li>
+              <li><a href="./register.jsp">Sign Up</a></li>
             </ul>
           </div>
         </li>

@@ -1,0 +1,35 @@
+
+/* 
+    Created on : 4 Feb 2024, 07:33:09
+    Author     : Dell
+*/
+@font-face{
+  font-family: Antic-Didone;
+  src: url(../components/Font/AnticDidone-Regular.ttf);
+}
+:root {
+  --primary-color: #895F8F;   
+  --action-color: #895F8F;
+  --ternery-color: #895F8F;
+  --ternery-second-color: #895F8F;
+  --back-color: #ffffff;
+  --text-color: #000000;
+  --back-alt-color: #3C4043;
+  --text-alt-color: #FFFFFF;
+  --logo-alt-color: #3C4043;
+  --ternery-alt-color: #ddcbcb;
+}
+:root {
+  --primary: var(--primary-color);
+  --action: var(--action-color);
+  --ternery: var(--ternery-second-color);
+  --back: var(--back-color);
+  --text: var(--text-color);
+  --back-alt: var(--back-alt-color);
+  --text-alt: var(--text-alt-color);
+  --ternery-alt: var(--ternery-alt-color);
+  font-size: 16px;
+  font-weight: 500;
+
+  font-family: Antic-Didone;
+}

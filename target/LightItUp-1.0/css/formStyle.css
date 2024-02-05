@@ -1,0 +1,112 @@
+/* 
+    Created on : 4 Feb 2024, 07:27:49
+    Author     : Dell
+*/
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  background-color: var(--back);
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+#register-form, 
+#login-form {
+  overflow: hidden; 
+  background-color: var(--back);
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  top: 20px;
+  height: max-content;
+  width: 50%;
+  border: none;
+  color: var(--text);
+  padding: 1rem;
+  border-radius: 24px;
+  overflow: hidden;
+  text-align: center;
+  display: block;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+#login-form{
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.text-container {
+  align-items: center;
+  text-align: start;
+    margin-bottom: 5px;
+
+}
+.text-container input,
+textarea {
+  padding: 15px;
+  margin-right: 10px;
+  width: 95%;
+  border: 1px solid var(--action);
+  outline: none;
+  border-radius: 16px;
+  color: var(--text);
+}
+textarea {
+  padding: 15px;
+  width: 95%;
+  height: 200px;
+  border: 1px solid var(--action);
+  outline: none;
+  border-radius: 16px;
+  color: var(--text);
+}
+.submitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submitBtn button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 200px;
+  height: 40px;
+  border: none;
+  background-color: var(--action);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: large;
+
+  font-family: inherit;
+  color: var(--back);
+  transition: 0.3s;
+}
+.submitBtn button:hover {
+  background-color: var(--back);
+  border: 2px solid var(--action);
+  color: var(--text);
+  transform: scale(1.01);
+}
+.register-href-div {
+  text-align: center;
+}
+/* anchor tag */
+#register-href {
+  text-decoration: underline;
+  color: var(--text);
+  transition: 0.3s;
+
+}
+#register-href:hover{
+  color: var(--primary);
+  transform: scale(1.01);
+}
+.error {
+  color: red;
+  font-style: italic;
+  font-size: small;
+}

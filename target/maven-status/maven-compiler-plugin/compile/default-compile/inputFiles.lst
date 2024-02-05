@@ -4,3 +4,6 @@ D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\entitie
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\entities\Product.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\resources\JakartaEE10Resource.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\JakartaRestConfiguration.java
+D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\servlets\LoginServlet.java
+D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\servlets\Register.java
+D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\dao\UserDao.java

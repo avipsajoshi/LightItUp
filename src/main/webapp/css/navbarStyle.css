@@ -3,49 +3,17 @@
     Created on : 1 Feb 2024, 10:02:31
     Author     : Dell
 */
-:root {
-  --primary-color: #ad9551;
-  --action-color: #d1b870;
-  --ternery-color: #efd896;
-  --back-color: #ffffff;
-  --text-color: #000000;
-  --back-alt-color: #555555;
-  --text-alt-color: #efeaea;
-  --logo-alt-color: #555555;
-  --ternery-alt-color: #ddcbcb;
-  --font-size: 26px;
-}
-:root {
-  --primary: var(--primary-color);
-  --action: var(--action-color);
-  --ternery: var(--ternery-color);
-  --back: var(--back-color);
-  --text: var(--text-color);
-  --back-alt: var(--back-alt-color);
-  --text-alt: var(--text-alt-color);
-  --ternery-alt: var(--ternery-alt-color);
-  --font-size: 26px;
-}
-@font-face {
-  font-family: Cinzel;
-  src: url(Cinzel/static/Cinzel-Regular.ttf);
-}
-@font-face {
-  font-family: Cinzel-Variable;
-  src: url(Cinzel/Cinzel-VariableFont_wght.ttf);
-  font-weight: 500;
-}
 * {
   margin: 0;
   padding: 0;
 }
 body {
   min-height: 100vh;
-  background-color: var(--ternery);
+  background-color: var(--back);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  font-family: Cinzel-Variable;
+  font-family: inherit;
 }
 #navImage {
   width: auto;
@@ -156,6 +124,7 @@ nav .navbar li:nth-child(2) {
   left: 0;
   top: 100%;
   background-color: var(--back);
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
 }
 
 .navbar li:hover #user-dropdown {
@@ -167,6 +136,7 @@ nav .navbar li:nth-child(2) {
   right: 0;
   top: 100%;
   background-color: var(--back);
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
 }
 .sidebar li:hover #categories-dropdown,
 .sidebar li:hover #user-dropdown {
@@ -265,6 +235,9 @@ nav .navbar li:nth-child(2) {
   }
   .menu-button {
     display: block;
+  }
+  .sidebar{
+    overflow-y: auto;
   }
   .search-container {
     margin-top: 0;
