@@ -18,10 +18,18 @@ body {
   width: auto;
   height: 50px;
 }
-nav {
+nav, .message-container {
   background-color: white;
   box-shadow: 3px 3px 5px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
+  
 }
+.message-container{
+  height: 50px;
+  width:100vw;
+  z-index: 1;
+  text-align: start;
+}
+
 nav .navbar {
   width: 100%;
   list-style: none;
@@ -267,6 +275,10 @@ nav .navbar li:nth-child(2) {
 
   #search_button {
     display: none;
+  }
+  .message-container{
+    height: 30px;
+    width: 100vw;
   }
 }
 @media (max-width: 400px) {

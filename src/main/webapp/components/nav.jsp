@@ -19,7 +19,7 @@
       integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+      />
     <script>
       function showSidebar() {
         const sidebar = document.querySelector(".sidebar");
@@ -74,22 +74,22 @@
         const user = document.querySelector("#user-dropdown");
         const toggleListUser = document.querySelector(".toggleListUser");
         if (
-          !dropdown.contains(e.target) &&
-          !dropdownList.contains(e.target) &&
-          !category.contains(e.target) &&
-          !toggleList.contains(e.target)
-        ) {
+                !dropdown.contains(e.target) &&
+                !dropdownList.contains(e.target) &&
+                !category.contains(e.target) &&
+                !toggleList.contains(e.target)
+                ) {
           if (category.style.display === "block") {
             category.style.display = "none";
             category.setAttribute("class", "drop-close");
           }
         }
         if (
-          !dropdown.contains(e.target) &&
-          !dropdownList.contains(e.target) &&
-          !user.contains(e.target) &&
-          !toggleListUser.contains(e.target)
-        ) {
+                !dropdown.contains(e.target) &&
+                !dropdownList.contains(e.target) &&
+                !user.contains(e.target) &&
+                !toggleListUser.contains(e.target)
+                ) {
           if (user.style.display === "block") {
             user.style.display = "none";
             user.setAttribute("class", "drop-close");
@@ -99,7 +99,7 @@
     </script>
   </head>
   <body>
-    
+
     <%
       User user1 =(User)session.getAttribute("logged_user");
     %>
@@ -107,16 +107,16 @@
       <ul class="sidebar">
         <li onclick="hideSidebar()">
           <a href="#" class="close"
-            ><svg
+             ><svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"
               viewBox="0 -960 960 960"
               width="24"
-            >
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+              >
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
               /></svg
-          ></a>
+            ></a>
         </li>
         <li>
           <a>
@@ -126,7 +126,7 @@
                   type="submit"
                   id="search_button"
                   style="border: none; background: none"
-                >
+                  >
                   <i class="fa-solid fa-magnifying-glass" id="mag-glass"></i>
                 </button>
                 <input
@@ -134,7 +134,7 @@
                   name="search-value"
                   id="search-value"
                   placeholder="Search"
-                />
+                  />
               </form>
             </div>
           </a>
@@ -169,16 +169,16 @@
       <ul class="navbar">
         <li class="menu-button" onclick="showSidebar()">
           <a href="#"
-            ><svg
+             ><svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"
               viewBox="0 -960 960 960"
               width="24"
-            >
-              <path
-                d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+              >
+            <path
+              d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
               /></svg
-          ></a>
+            ></a>
         </li>
         <li>
           <a href="./index.jsp"><img src="images/l_text.png" alt="????"  id="navImage"/></a>
@@ -190,7 +190,7 @@
                 type="submit"
                 id="search_button"
                 style="border: none; background: none"
-              >
+                >
                 <i class="fa-solid fa-magnifying-glass" id="mag-glass"></i>
               </button>
               <input
@@ -198,7 +198,7 @@
                 name="search-value"
                 id="search-value"
                 placeholder="Search"
-              />
+                />
             </form>
           </div>
         </li>
@@ -227,21 +227,20 @@
               %>
               <li><a href="./login.jsp">Login</a></li>
               <li><a href="./register.jsp">Sign Up</a></li>
-              <%
-                }
-                else{
-              %>
+                <%
+                  }
+                  else{
+                %>
               <li><a href="./profile.jsp"><%= user1.getUserName() %></a></li>
               <li><a href="./LogoutServlet">Logout</a></li>
-              <%
-                }
-              %>
-              
+                <%
+                  }
+                %>
+
             </ul>
           </div>
         </li>
       </ul>
     </nav>
-
   </body>
 </html>

@@ -53,7 +53,6 @@ public class LoginServlet extends HttpServlet {
           httpSession.setAttribute("message", "Unsuccessful. Please Try Again!");
           // ("key", "value");
           response.sendRedirect("login.jsp");
-          return;
         } else {
           httpSession.setAttribute("logged_user", logged_user);
 //          response.sendRedirect("index.jsp");

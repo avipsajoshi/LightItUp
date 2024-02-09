@@ -1,13 +1,15 @@
-#category-form input, #product-form input{
+#category-form input, #product-form input, textarea{
   padding: 15px;
   margin-right: 10px;
-  width: 95%;
+  width: 80%;
   border: 1px solid var(--action);
   outline: none;
   border-radius: 16px;
   color: var(--text);
 }
-
+textarea{
+  height: 40%;
+}
 .error-message {
   color: red;
   font-style: italic;
@@ -23,7 +25,7 @@
   border-radius: 20px;
   cursor: pointer;
   font-size: large;
-
+  font-family: var(--font-family);
   color: var(--back);
   transition: 0.3s;
 }

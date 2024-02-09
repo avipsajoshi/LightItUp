@@ -12,6 +12,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.lightitup.servlets.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductOperationServlet</servlet-name>
+        <servlet-class>com.lightitup.servlets.ProductOperationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductOperationServlet</servlet-name>
+        <url-pattern>/ProductOperationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

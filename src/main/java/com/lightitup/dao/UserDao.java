@@ -35,6 +35,7 @@ public class UserDao {
       if (!results.isEmpty()) {
         user = results.get(0);//returns single user object(row)
       }
+      session.close();
     } catch (Exception e) {
       e.printStackTrace();
     }

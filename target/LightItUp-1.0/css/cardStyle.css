@@ -9,7 +9,6 @@
 }
 .card {
   border: none;
-  box-shadow: 0 4px 8px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
   border-radius: 20px;
   width: calc(100vw / 7);
   /* for more than 800resolution */
@@ -26,7 +25,7 @@
   justify-content: center;
 }
 .card:hover{
-  transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
 
 }
 #product-card {
@@ -115,6 +114,7 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
+  height: calc(100vh/2);
   padding: 20px;
   background-color:var(--back);
   box-shadow: 0 0 10px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.2);

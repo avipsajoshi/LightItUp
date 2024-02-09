@@ -1,10 +1,13 @@
+com\lightitup\dao\UserDao.class
+com\lightitup\servlets\LoginServlet.class
+com\lightitup\entities\User.class
 com\lightitup\helper\FactoryProvider.class
 com\lightitup\entities\Product.class
 com\lightitup\servlets\LogoutServlet.class
-com\lightitup\dao\UserDao.class
+com\lightitup\dao\ProductDao.class
 com\lightitup\resources\JakartaEE10Resource.class
-com\lightitup\servlets\LoginServlet.class
-com\lightitup\entities\User.class
+com\lightitup\dao\CategoryDao.class
+com\lightitup\servlets\ProductOperationServlet.class
 com\lightitup\servlets\Register.class
 com\lightitup\entities\Category.class
 com\lightitup\JakartaRestConfiguration.class
