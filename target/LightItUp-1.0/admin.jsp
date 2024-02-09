@@ -4,7 +4,9 @@
     Author     : Dell
 --%>
 <%@page import="com.lightitup.entities.User" %>
+<%@page import="com.lightitup.helper.FactoryProvider" %>
 <%@page import="com.lightitup.dao.CategoryDao" %>
+<%@page import="java.util.List" %>
 <% 
   User user =(User)session.getAttribute("logged_user");
   if(user == null){
@@ -63,7 +65,7 @@
       </div>
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-user-group"></i>
+          <i class="fa-solid fa-list"></i>
         </div>
         <div class="info-container">
           <div class="description">Order</div>
@@ -75,7 +77,7 @@
 
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-list"></i>
+          <i class="fa-solid fa-table-cells-large"></i>
         </div>
         <div class="info-container">
           <div class="description">Categories</div>
@@ -88,6 +90,7 @@
             <form id="category-form" action="./ProductOperationServlet" method="post">
               <input type="hidden" value="1" name="operationType">
               <h3> Add New Category</h3>  
+              <br>
               <label for="category-name">Category Name:</label>
               <small id="category-name-error" class="error"></small>
               <br>
@@ -107,7 +110,7 @@
 
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-bag-shopping"></i>
+          <i class="fa-solid fa-box-open"></i>
         </div>
         <div class="info-container">
           <div class="description">Products</div>
@@ -120,6 +123,7 @@
             <form id="product-form" action="./ProductOperationServlet" method="post" enctype="multipart/form-data">
               <input type="hidden" value="2" name="operationType">
               <h3> Add New Product</h3>
+              <br>
               <label for="product-name">Product Name:</label>
               <small id="product-name-error" class="error"></small>
               <br>
@@ -139,7 +143,7 @@
               <label for="product-quantity">Quantity:</label>
               <small id="product-quantity-error" class="error"></small>
               <br>
-              <input type="text" id="product-quantity" name="product-quatity" />
+              <input type="text" id="product-quantity" name="product-quantity" />
               <br>
               <label for="product-discount">Discount: </label>
               <small id="product-discount-error" class="error"></small>
@@ -151,17 +155,18 @@
               <br>
               <input type="file" id="product-image" name="product-image" required />
               <br>
-
+              <label for="catId">Category: </label>
+              <br>
               <!--product category drop down-->
 
               <%
                 CategoryDao cdao =new CategoryDao(FactoryProvider.getFactory());
-                List<Category> allCategories =cdao.getAllCategory();
+                List<Category> allCategories = cdao.getAllCategory();
               %>
               <select name="catId" id="select-category">
                 <%
-                  for(Categrory c:allCategories){                               %>
-                <option value="<%= c.getCategoryId();%>"><%= c.getCategoryTitle()%></option>
+                  for(Category c : allCategories){                               %>
+                <option value="<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></option>
                 <%
                   }
                 %>

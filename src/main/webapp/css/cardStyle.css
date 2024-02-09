@@ -2,9 +2,8 @@
 
 .grid-container-admin {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  margin-top: calc(100vh / 5);
   margin-left: calc(100vw / 12);
 }
 .card {
@@ -113,8 +112,9 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: calc(100vh/2);
+  z-index:999;
+  width: 350px;
+  height: max-content;
   padding: 20px;
   background-color:var(--back);
   box-shadow: 0 0 10px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.2);

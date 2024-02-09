@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 //a multipart configuration data accept
 @MultipartConfig
@@ -28,6 +30,8 @@ public class ProductOperationServlet extends HttpServlet {
       //fetch operation value
       String operation = request.getParameter("operationType");
       if (operation.trim().equals("1")) {
+        out.print("category going");
+
         //add category
         //fetching category data
         String title = request.getParameter("category-name");
@@ -43,54 +47,76 @@ public class ProductOperationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (isAdded == true) {
           session.setAttribute("message", "Category Added Successfully!");
-          response.sendRedirect("admin.jsp");
-        }
-        else{
+        } else {
           session.setAttribute("message", "Error Adding Category. Please Try again!");
-          response.sendRedirect("admin.jsp");
         }
-      } 
-      //PRODUCT OPERATION -------------
+        response.sendRedirect("admin.jsp");
+
+      } //PRODUCT OPERATION -------------
       else if (operation.trim().equals("2")) {
+        out.print("product going");
         //add product
         String pName = request.getParameter("product-name");
         String pDesc = request.getParameter("product-description");
-        Double pPrice = Double.parseDouble(request.getParameter("product-price"));
-        Double pDiscount = Double.parseDouble(request.getParameter("product-discount"));
+        Double pPrice = Double.valueOf(request.getParameter("product-price"));
+        Double pDiscount = Double.valueOf(request.getParameter("product-discount"));
         int pQty = Integer.parseInt(request.getParameter("product-quantity"));
         int catId = Integer.parseInt(request.getParameter("catId"));
-        //to get file 
-        Part file = request.getPart("product-image");
         Product product = new Product();
         product.setpName(pName);
         product.setpDescription(pDesc);
         product.setpPrice(pPrice);
         product.setpQuantity(pQty);
         product.setpDiscount(pDiscount);
-        //saving photo to path "product-images"
-        ServletContext context = request.getServletContext();
-        String path = context.getRealPath("/images/")+File.separator+"product-images";
-        product.setpPhoto(file.getSubmittedFileName());
-        
-//getting categoryto set category column with the object 
+        //getting categoryto set category column with the object 
         CategoryDao cdao = new CategoryDao(FactoryProvider.getFactory());
         Category productcategory = cdao.getCategoryById(catId);
+        out.print("product going category2");
+
         product.setCategory(productcategory);
-       
+        //to retrieve file from <input type="file" name="product-image">
+        Part filepart = request.getPart("product-image");
+        product.setpPhoto(filepart.getSubmittedFileName());
+        out.print("product going file name extracted");
+
+        //saving photo to path "product-images"
+        ServletContext context = request.getServletContext();
+        String path = context.getRealPath("/images/") + File.separator + "product-images" + File.separator + filepart.getSubmittedFileName();
+                out.print("product file path going");
+
+        try {
+          //uploading---
+          FileOutputStream fos = new FileOutputStream(path);
+
+          FileInputStream fis = (FileInputStream) filepart.getInputStream();
+          //reading data
+          byte[] data = new byte[fis.available()];
+                  out.print("product read write going");
+
+          fis.read(data);
+          fos.write(data);
+          fos.close();
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
         //save this to database through ProductDao
         ProductDao productDao = new ProductDao(FactoryProvider.getFactory());
+        out.print("product dao going");
+
         boolean added = productDao.addProduct(product);
+        out.print("product result");
+
         HttpSession session = request.getSession();
+        out.print("product session");
 
         if (added == true) {
           session.setAttribute("message", "Product Added Successfully!");
-          response.sendRedirect("admin.jsp");
-        }
-        else{
+        } else {
           session.setAttribute("message", "Error Adding Product. Please Try again!");
-          response.sendRedirect("admin.jsp");
-        
         }
+
+//        response.sendRedirect("admin.jsp");
       }
     }
   }

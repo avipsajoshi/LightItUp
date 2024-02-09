@@ -181,7 +181,7 @@
             ></a>
         </li>
         <li>
-          <a href="./index.jsp"><img src="images/l_text.png" alt="????"  id="navImage"/></a>
+          <a href="./index.jsp" id="navImageAnchor"><img src="images/l_text.png" alt="????"  id="navImage"/></a>
         </li>
         <li class="hideOnMobile search">
           <div class="search-container">

@@ -18,16 +18,23 @@ body {
   width: auto;
   height: 50px;
 }
-nav, .message-container {
+#navImageAnchor, #navImageAnchor:hover{
+  text-decoration: none;
+  background-color: transparent;
+}
+
+nav{
   background-color: white;
   box-shadow: 3px 3px 5px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
   
 }
 .message-container{
-  height: 50px;
-  width:100vw;
+  margin-top: 50px;
+  padding-left: 12px;
+  padding-top: 12px; 
+  height: 30px;
   z-index: 1;
-  text-align: start;
+  
 }
 
 nav .navbar {
