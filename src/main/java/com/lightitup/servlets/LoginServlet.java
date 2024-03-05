@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("admin.jsp");
           } else if (alreadyLogged.getUserType().equals("customer")) {
             //client.jsp
-            response.sendRedirect("customer.jsp");
+            response.sendRedirect("dashboard.jsp");
           } else {
           }
         }

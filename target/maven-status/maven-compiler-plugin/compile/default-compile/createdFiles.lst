@@ -2,6 +2,7 @@ com\lightitup\dao\UserDao.class
 com\lightitup\servlets\LoginServlet.class
 com\lightitup\entities\User.class
 com\lightitup\helper\FactoryProvider.class
+com\lightitup\helper\Helper.class
 com\lightitup\entities\Product.class
 com\lightitup\servlets\LogoutServlet.class
 com\lightitup\dao\ProductDao.class

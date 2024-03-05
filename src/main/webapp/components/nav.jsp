@@ -1,9 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page import="com.lightitup.dao.CategoryDao" %>
+<%@page import="com.lightitup.helper.FactoryProvider" %>
+<%@page import="com.lightitup.entities.User" %>
 <%@page import="com.lightitup.entities.Category" %>
 <%@page import="com.lightitup.entities.Product" %>
-<%@page import="com.lightitup.entities.User" %>
-
+<%@page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -143,17 +145,27 @@
         <li class="toggleList" onclick="toggleDropdown()">
           <a href="#">Categories</a>
           <div class="dropdown">
+            <%
+                CategoryDao cdao =new CategoryDao(FactoryProvider.getFactory());
+                List<Category> allCategories = cdao.getAllCategory();
+            %>
             <ul class="dropdownList" id="categories-dropdown">
-              <li><a href="#">Category 1</a></li>
-              <li><a href="#">Category 2</a></li>
-              <li><a href="#">Category 3</a></li>
-              <li><a href="#">Category 4</a></li>
+              <%
+                for(Category c : allCategories){
+              %>
+              <li><a href="search.jsp/<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></a></li>
+                <%
+                  }
+                %>
             </ul>
           </div>
         </li>
         <li><a href="#">About</a></li>
         <li>
-          <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+          <div style="width:fit-content; position: relative;">
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+            <button class="cart-notification"><span class="cart-items">0</span></button>
+          </div>
         </li>
         <li class="toggleListUser" onclick="toggleDropdownUser()">
           <a href="#"><i class="fa-solid fa-user"></i></a>
@@ -207,10 +219,13 @@
           <a href="#">Categories</a>
           <div id="categories-dropdown">
             <ul>
-              <li><a href="#">Category 1</a></li>
-              <li><a href="#">Category 2</a></li>
-              <li><a href="#">Category 3</a></li>
-              <li><a href="#">Category 4</a></li>
+              <%
+                for(Category c : allCategories){ 
+              %>
+              <li><a href="search.jsp/<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></a></li>
+                <%
+                  }
+                %>
             </ul>
           </div>
         </li>

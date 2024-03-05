@@ -1,10 +1,15 @@
-
-
 .grid-container-admin {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   margin-left: calc(100vw / 12);
+  margin-top: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
 }
 .card {
   border: none;
@@ -22,9 +27,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .card:hover{
-    box-shadow: 0 4px 8px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
+  box-shadow: 0 4px 8px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.1);
 
 }
 #product-card {
@@ -49,8 +55,9 @@
 .info-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /*justify-content: space-between;*/
   font-size: larger;
+  gap: 12px;
 }
 
 .input-container {
@@ -71,7 +78,7 @@ button {
 
 .add-to-cart-container,
 .add-container {
-  width: 100%;
+  /*width: 100%;*/
 }
 .add-to-cart-container button {
   border-radius: 20px;
@@ -109,12 +116,13 @@ a {
 /* FOR POPUP*/
 .popup-container {
   position: fixed;
+  margin-top:50px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index:999;
   width: 350px;
-  height: max-content;
+  height: 100%;
   padding: 20px;
   background-color:var(--back);
   box-shadow: 0 0 10px rgba(var(--boxShadow), var(--boxShadow), var(--boxShadow), 0.2);

@@ -16,11 +16,10 @@
   <body>
     <%@include file="components/nav.jsp"%>
     <form method="post" id="login-form" action="./LoginServlet">
-
       <div class="formheader">
         <h3>Welcome Back!</h3>
         <h4>Start Browsing</h4>
-        <p class="invalid"><%@include file="components/message.jsp" %></p>
+        <p class="invalid"><%@include file="components/messageNoHeight.jsp" %></p>
       </div>
       <div class="text-container">
         <label for="user_email">Email:</label>

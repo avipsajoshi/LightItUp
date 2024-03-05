@@ -19,7 +19,7 @@
       <div class="formheader">
         <h3>JOIN US!</h3>
         <h4>Create Your Account</h4>
-        <p class="invalid"><%@include file="components/message.jsp" %></p>
+        <p class="invalid"><%@include file="components/messageNoHeight.jsp" %></p>
       </div>
       <div class="text-container">
         <label for="user_name">Full Name:</label>

@@ -50,9 +50,7 @@
         document.getElementById(popup).style.display = "none";
       }
     </script>
-    <div class="message-container">
-      <%@include file="components/message.jsp"%>
-    </div>
+    <%@include file="components/message.jsp"%>
     <div class="grid-container-admin">
       <div class="card">
         <div class="image-container">
@@ -160,13 +158,13 @@
               <!--product category drop down-->
 
               <%
-                CategoryDao cdao =new CategoryDao(FactoryProvider.getFactory());
-                List<Category> allCategories = cdao.getAllCategory();
+                CategoryDao productCDAO =new CategoryDao(FactoryProvider.getFactory());
+                List<Category> allCategoriesList = productCDAO.getAllCategory();
               %>
               <select name="catId" id="select-category">
                 <%
-                  for(Category c : allCategories){                               %>
-                <option value="<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></option>
+                  for(Category pro_c : allCategoriesList){                               %>
+                <option value="<%= pro_c.getCategoryId()%>"><%= pro_c.getCategoryTitle()%></option>
                 <%
                   }
                 %>
