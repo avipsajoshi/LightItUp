@@ -12,99 +12,98 @@
     <title>Your Cart</title>
     <link rel="icon" type="image/png" href="images/l_img.png" />
     <style>
-    .card-container {
-      max-width: 540px;
-      border-bottom: 1px solid #ccc;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 0px;
-      border-bottom-right-radius: 0px;
-      border-bottom-left-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      padding-right: 10px;;
-    }
+      .card-container {
+        max-width: 540px;
+        border-bottom: 1px solid #ccc;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        padding-right: 10px;;
+      }
 
-    .card-head {
-      display: flex;
-    }
+      .card-head {
+        display: flex;
+      }
 
-    .image-container {
-      max-width: 40%;
-    }
+      .image-container {
+        max-width: 40%;
+      }
 
-    .info-container {
-      max-width: 60%;
-    }
+      .info-container {
+        max-width: 60%;
+      }
 
-    .card-body {
-      padding: 1rem;
-    }
+      .card-body {
+        padding: 1rem;
+      }
 
-    .card-title {
-      font-size: larger;
-      margin-bottom: 0.5rem;
-    }
+      .card-title {
+        font-size: larger;
+        margin-bottom: 0.5rem;
+      }
 
-    .card-text {
-      margin-bottom: 0.5rem;
-    }
+      .card-text {
+        margin-bottom: 0.5rem;
+      }
 
-    .text-body-secondary {
-      font-size: 0.875rem;
-      color: #6c757d;
-    }
+      .text-body-secondary {
+        font-size: 0.875rem;
+        color: #6c757d;
+      }
 
-    .checkboxes{
-      position: relative;
-    }
-    input[type="checkbox"]{
-      visibility: hidden;
-      position: absolute;
-    }
-    input[type="checkbox"] + label:before{
-      height:18px;
-      width:18px;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      margin-right: 2px;
-      content: " ";
-      display:inline-block;
-      vertical-align: baseline;
-      border: 2px solid #ffffff;
-      outline: 2px solid #895F8F; 
-      /* border-radius: 53px; */
-      cursor: pointer;
-      border-radius:50%;
-    }
-    input[type="checkbox"]:checked + label:before{
-      background-color: #895F8F; 
-      outline: 2px solid #895f89;
-    }
-    .form{
-      display: flex;
-      gap: 100px;
-    }
-    .bill{
-      margin-left: 50px;
-    }
-    .total,.bill-card{
-      display: flex;
-      gap: 20px;
-    }
-    .bill-image-container{
-      max-width: 100px;
-    }
-    .bill-image-container img{
-      width: 100%;
-      height:auto;
-    }
-  </style>
+      .checkboxes{
+        position: relative;
+      }
+      input[type="checkbox"]{
+        visibility: hidden;
+        position: absolute;
+      }
+      input[type="checkbox"] + label:before{
+        height:18px;
+        width:18px;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin-right: 2px;
+        content: " ";
+        display:inline-block;
+        vertical-align: baseline;
+        border: 2px solid var(--back);
+        outline: 2px solid var(--action); 
+        /* border-radius: 53px; */
+        cursor: pointer;
+        border-radius:50%;
+      }
+      input[type="checkbox"]:checked + label:before{
+        background-color: var(--action); 
+        outline: 2px solid var(--action);
+      }
+      .form{
+        display: flex;
+        gap: 100px;
+      }
+      .bill{
+        margin-left: 50px;
+      }
+      .total,.bill-card{
+        display: flex;
+        gap: 20px;
+      }
+      .bill-image-container{
+        max-width: 100px;
+      }
+      .bill-image-container img{
+        width: 100%;
+        height:auto;
+      }
+    </style>
   </head>
   <body>
     <%@include file="components/nav.jsp"%>
     <link rel="stylesheet" href="css/displaybody.css" />
-    <link rel="stylesheet" href="css/cardStyle.css" />
     <form action="">
       <div class="form">
         <div class="cards">

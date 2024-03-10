@@ -56,6 +56,32 @@ public class CartDao {
     return f;
   }
 
+  public boolean deleteItemFromCart(Cart cart, int pid) {
+    boolean f = false;
+    Session session = this.factory.openSession();
+    Transaction tx = session.beginTransaction();
+    try {
+      Cart cat = session.get(Cart.class, cart.getcId());
+      Query query = session.createQuery("DELETE from Cart as c WHERE c.Id = :cartId and c.product.pId = :pid", Cart.class);
+      if (cat != null) {
+        query.setParameter("cartId", cat.getcId());
+      }
+      query.setParameter("pid", pid);
+      int rowCount = query.executeUpdate();
+      System.out.println("Rows affected: " + rowCount);
+      if (rowCount >= 1) {
+        f = true;
+      }
+    } catch (HibernateException e) {
+      e.printStackTrace();
+      session.getTransaction().rollback();
+      f = false;
+    }
+
+    session.close();
+    return f;
+  }
+
   public boolean updateCart(Cart cart, int qty) {
     boolean f = false;
     Session session = this.factory.openSession();
@@ -71,10 +97,12 @@ public class CartDao {
       // Execute the update query
       int rowCount = query.executeUpdate();
       System.out.println("Rows affected: " + rowCount);
-
+      if (rowCount >= 1) {
+        f = true;
+      }
       session.getTransaction().commit();
       tx.commit();
-      f = true;
+
     } catch (HibernateException e) {
       e.printStackTrace();
       session.getTransaction().rollback();
@@ -82,6 +110,14 @@ public class CartDao {
     }
     session.close();
     return f;
+  }
+
+  public List<Cart> getCartItemsByUserId(int uid) {
+    Session s = this.factory.openSession();
+    Query q = s.createQuery("from Cart as c WHERE c.user.userId = :uid", Cart.class);
+    q.setParameter("uid", uid);
+    List<Cart> list = q.list();
+    return list;
   }
 
 }

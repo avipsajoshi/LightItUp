@@ -1,35 +1,45 @@
 package com.lightitup.entities;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
+
   //primary key gerenrated value gives AutoIncrement
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(length = 10, name="userId") 
+  @Column(length = 10, name = "userId")
   private int userId;
-  @Column(length = 100, name="userName") 
+  @Column(length = 100, name = "userName")
   private String userName;
-  @Column(length = 100, name="userEmail") 
+  @Column(length = 100, name = "userEmail")
   private String userEmail;
-  @Column(length = 1000, name="userPassword") 
+  @Column(length = 1000, name = "userPassword")
   private String userPassword;
-  @Column(length = 12, name="userPhone") 
+  @Column(length = 12, name = "userPhone")
   private String userPhone;
-  @Column(length = 1500, name="userPic") 
+  @Column(length = 1500, name = "userPic")
   private String userPic;
   //specify lenght of column name
-  @Column(length = 1500, name="userAddress") 
+  @Column(length = 1500, name = "userAddress")
   private String userAddress;
-  @Column(length = 1500, name="userType") 
+  @Column(length = 1500, name = "userType")
   private String userType;
+
+  @OneToMany(mappedBy = "cartUser")
+  private List<Cart> cart = new ArrayList<>();
+  @OneToMany(mappedBy = "orderUser")
+  private List<OrderTable> orderTable = new ArrayList<>();
+
+  public User() {
+  }
 
   public User(int userId, String userName, String userEmail, String userPassword, String userPhone, String userPic, String userAddress, String userType) {
     this.userId = userId;
@@ -40,7 +50,6 @@ public class User {
     this.userPic = userPic;
     this.userAddress = userAddress;
     this.userType = userType;
-
   }
 
   public User(String userName, String userEmail, String userPassword, String userPhone, String userPic, String userAddress, String userType) {
@@ -53,9 +62,6 @@ public class User {
     this.userType = userType;
   }
   
-
-  public User() {
-  }
 
   public int getUserId() {
     return userId;
@@ -121,9 +127,20 @@ public class User {
     this.userType = userType;
   }
 
-  @Override
-  public String toString() {
-    return "User{" + "userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", userPassword=" + userPassword + ", userPhone=" + userPhone + ", userPic=" + userPic + ", userAddress=" + userAddress + ", userType=" + userType + '}';
+  public List<Cart> getCart() {
+    return cart;
+  }
+
+  public void setCart(List<Cart> cart) {
+    this.cart = cart;
+  }
+
+  public List<OrderTable> getOrderTable() {
+    return orderTable;
+  }
+
+  public void setOrderTable(List<OrderTable> orderTable) {
+    this.orderTable = orderTable;
   }
 
 }

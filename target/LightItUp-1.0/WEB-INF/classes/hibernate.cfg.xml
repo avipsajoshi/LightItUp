@@ -12,17 +12,20 @@
     <property name="connection.password"> </property>
 
     <!-- Specify dialect -->
-    <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
-
-    <!-- Echo all executed SQL to stdout -->
-    <property name="show_sql">true</property>
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
     <!-- Drop and re-create the database schema on startup -->
     <property name="hbm2ddl.auto">update</property>
     
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+    
     <mapping class="com.lightitup.entities.User" />
     <mapping class="com.lightitup.entities.Category" />
     <mapping class="com.lightitup.entities.Product" />
+    <mapping class="com.lightitup.entities.Cart" />
+    <mapping class="com.lightitup.entities.OrderTable" />
+    
   </session-factory>
 </hibernate-configuration>
 

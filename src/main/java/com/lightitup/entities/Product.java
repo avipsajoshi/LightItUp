@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -23,21 +26,17 @@ public class Product {
   @ManyToOne
   //will create new column
   private Category category;
-
+  @OneToMany(mappedBy= "orderProduct")
+  private List<OrderTable> orderTable;
+  
+  @OneToMany(mappedBy= "cartProduct")
+  private List<Cart> cart;
+  
   public Product() {
   }
 
-//  public Product(int pId, String pName, String pDescription, String pPhoto, double pPrice, double pDiscount, int pQuantity) {
-//    this.pId = pId;
-//    this.pName = pName;
-//    this.pDescription = pDescription;
-//    this.pPhoto = pPhoto;
-//    this.pPrice = pPrice;
-//    this.pDiscount = pDiscount;
-//    this.pQuantity = pQuantity;
-//  }
-
-  public Product(String pName, String pDescription, String pPhoto, double pPrice, double pDiscount, int pQuantity, Category category ) {
+  public Product(int pId, String pName, String pDescription, String pPhoto, double pPrice, double pDiscount, int pQuantity, Category category, List<OrderTable> orderTable, List<Cart> cart) {
+    this.pId = pId;
     this.pName = pName;
     this.pDescription = pDescription;
     this.pPhoto = pPhoto;
@@ -45,9 +44,22 @@ public class Product {
     this.pDiscount = pDiscount;
     this.pQuantity = pQuantity;
     this.category = category;
+    this.orderTable = orderTable;
+    this.cart = cart;
   }
 
-  //getter setter methods for variables
+  public Product(String pName, String pDescription, String pPhoto, double pPrice, double pDiscount, int pQuantity, Category category, List<OrderTable> orderTable, List<Cart> cart) {
+    this.pName = pName;
+    this.pDescription = pDescription;
+    this.pPhoto = pPhoto;
+    this.pPrice = pPrice;
+    this.pDiscount = pDiscount;
+    this.pQuantity = pQuantity;
+    this.category = category;
+    this.orderTable = orderTable;
+    this.cart = cart;
+  }
+
   public int getpId() {
     return pId;
   }
@@ -111,15 +123,29 @@ public class Product {
   public void setCategory(Category category) {
     this.category = category;
   }
-  
-  
+
+  public List<OrderTable> getOrderTable() {
+    return orderTable;
+  }
+
+  public void setOrderTable(List<OrderTable> orderTable) {
+    this.orderTable = orderTable;
+  }
+
+  public List<Cart> getCart() {
+    return cart;
+  }
+
+  public void setCart(List<Cart> cart) {
+    this.cart = cart;
+  }
 
   @Override
   public String toString() {
-    return "Product{" + "pId=" + pId + ", pName=" + pName + ", pDescription=" + pDescription + ", pPhoto=" + pPhoto + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount + ", pQuantity=" + pQuantity + '}';
+    return "Product{" + "pId=" + pId + ", pName=" + pName + ", pDescription=" + pDescription + ", pPhoto=" + pPhoto + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount + ", pQuantity=" + pQuantity + ", category=" + category + ", orderTable=" + orderTable + ", cart=" + cart + '}';
   }
-
   
+
   //calculate price after discount
   public double getPriceAfterDiscount(){
     int d = (int)((this.getpDiscount()/100.0)*this.getpPrice());

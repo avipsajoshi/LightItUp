@@ -5,7 +5,6 @@ import com.lightitup.entities.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.*;
 
 public class UserDao {
 

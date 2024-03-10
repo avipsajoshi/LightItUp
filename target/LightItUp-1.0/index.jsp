@@ -20,17 +20,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dashboard</title>
-    <link rel="icon" type="image/png" href="images/l_img.png" />
+    <link rel="icon" type="image/png" href="images/l_img.png"/>
 
   </head>
   <body>
     <%@include file="components/nav.jsp"%>
     <link rel="stylesheet" href="css/displaybody.css" />
     <link rel="stylesheet" href="css/cardStyle.css" />
-
-    <!--    <h2>Creating Session factory object <% 
-          FactoryProvider.getFactory();
-    %>-->
     <%@include file="components/message.jsp"%>
 
     <div id="main">
@@ -39,8 +35,7 @@
         ProductDao getProductsDao = new ProductDao(FactoryProvider.getFactory());
         List<Product> productList = null;
         if(category == null || category.trim().equals("all")){
-          productList = getProductsDao.getAllProducts();
-
+          productList = getProductsDao.getProductsByCategory();
         }
         else{
           int catId=Integer.parseInt(category.trim());
@@ -63,10 +58,14 @@
       </div>
       <div id="main-body">
         <!--show products-->
-        <!--<h1>Number of Products: <%//=productList.size() %></h1>-->
+        <%
+          for(Category cat:allCategories){
+        %>
+        <p><%=cat.getCategoryTitle()%></p>
         <div class="grid-container">
           <%
             for(Product prod:productList){
+            if(prod.getCategory().getCategoryId() == cat.getCategoryId()){
           %>
           <!--product card-->
           <div class="card" id="product-card">
@@ -76,26 +75,29 @@
             </div>
             <div class="info-container">
               <p style="font-weight: 600"><%=prod.getpName() %></p>
-              <p>NPR. <%=prod.getPriceAfterDiscount()%> <span class="text-secondary">NPR. <%=prod.getpPrice%>, <%=prod.getpDiscount()%>% off</span></p>
+              <p>NPR. <%=prod.getPriceAfterDiscount()%> <span class="text-secondary">NPR. <%=prod.getpPrice()%>, <%=prod.getpDiscount()%>% off</span></p>
             </div>
             <div class="add-to-cart-container">
-              <button onclick="redirect()">Add To Cart</button>
+              <form action="./AddToCart" method="post">
+                <input type="text" name="productId" value="<%=prod.getpId()%>" hidden>
+                <button type="submit" name="fromWhere" value="index">Add To Cart</button>
+              </form>
             </div>
           </div> 
           <%
-            }
-            if(productList.size()==0){
-              out.println("<h3>Coming Soon! </h3>");
+              }
             }
           %>
         </div>
+        <hr>
+        <%
+          }
+          if(productList.size()==0){
+            out.println("<h3>Coming Soon! </h3>");
+          }
+        %>
+
       </div>
     </div>
-    <script>
-      function redirect() {
-        window.location.href = "./login.jsp";
-      }
-    </script>
-
   </body>
 </html>

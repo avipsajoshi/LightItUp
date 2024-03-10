@@ -1,4 +1,3 @@
-
 package com.lightitup.servlets;
 
 import com.lightitup.dao.CartDao;
@@ -15,8 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 public class AddToCart extends HttpServlet {
+
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
@@ -41,18 +40,17 @@ public class AddToCart extends HttpServlet {
                 Cart cart = new Cart();
                 int prodId = Integer.parseInt(productID);
                 String dashboard = request.getParameter("fromWhere");
-                if(dashboard.trim().equals("dashboard")){
+                if (dashboard.trim().equals("dashboard")) {
                   cart.setQuantity(1);
-                }
-                else if(dashboard.trim().equals("view")){
+                } else if (dashboard.trim().equals("view")) {
                   String newQty = request.getParameter("view-qty");
                   int qty = Integer.parseInt(newQty);
                   cart.setQuantity(qty);
                 }
                 ProductDao pdao = new ProductDao(FactoryProvider.getFactory());
                 Product productitem = pdao.getProductById(prodId);
-                cart.setProduct(productitem);
-                cart.setUser(alreadyLogged);
+                cart.setCartProduct(productitem);
+                cart.setCartUser(alreadyLogged);
                 cart.setCheckout("not checked out");
                 cart.setTotal(productitem.getPriceAfterDiscount());
                 CartDao cartDao = new CartDao(FactoryProvider.getFactory());
@@ -70,6 +68,9 @@ public class AddToCart extends HttpServlet {
             response.sendRedirect("dashboard.jsp");
           } else {
           }
+        } else {
+          httpSession.setAttribute("message", "Please Login First");
+          response.sendRedirect("login.jsp");
         }
       } catch (Exception e) {
         //print error in console

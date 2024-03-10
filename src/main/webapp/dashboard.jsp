@@ -50,8 +50,7 @@
         ProductDao getProductsDao = new ProductDao(FactoryProvider.getFactory());
         List<Product> productList = null;
         if(category == null || category.trim().equals("all")){
-          productList = getProductsDao.getAllProducts();
-
+          productList = getProductsDao.getProductsByCategory();
         }
         else{
           int catId=Integer.parseInt(category.trim());
@@ -66,6 +65,7 @@
         <%
           for(Category c : allCategories){
         %>
+
         <a href="dashboard.jsp?cat=<%=c.getCategoryId()%>" class="list-group-item"><%=c.getCategoryTitle()%></a>
         <%
           }
@@ -73,35 +73,45 @@
       </div>
       <div id="main-body">
         <!--show products-->
-        <!--<h1>Number of Products: <%//=productList.size() %></h1>-->
+        <%
+          for(Category cat:allCategories){
+        %>
+        <p><%=cat.getCategoryTitle()%></p>
         <div class="grid-container">
           <%
             for(Product prod:productList){
+            if(prod.getCategory().getCategoryId() == cat.getCategoryId()){
           %>
           <!--product card-->
           <div class="card" id="product-card">
             <div class="image-container">
-              <img src="images/product-images/<%=prod.getpPhoto() %>" alt="<%=prod.getpName() %>"/>
-              <!--<img src="https://via.placeholder.com/200" alt=<%//=prod.getpName() %> />-->
+              <img src="images/product-images/<%=prod.getpPhoto() %>" alt="<%=prod.getpPhoto() %>"/>
+              <!--<img src="https://via.placeholder.com/200" alt=<%//=prod.getpPhoto() %> />-->
             </div>
             <div class="info-container">
               <p style="font-weight: 600"><%=prod.getpName() %></p>
-              <p>NPR. <%=prod.getPriceAfterDiscount()%> <span class="text-secondary">NPR. <%=prod.getpPrice%>, <%=prod.getpDiscount()%>% off</span></p>
+              <p>NPR. <%=prod.getPriceAfterDiscount()%> <span class="text-secondary">NPR. <%=prod.getpPrice()%>, <%=prod.getpDiscount()%>% off</span></p>
             </div>
             <div class="add-to-cart-container">
               <form action="./AddToCart" method="post">
                 <input type="text" name="productId" value="<%=prod.getpId()%>" hidden>
-                <button type="submit" name="fromWhere" value="dashboard">Add To Cart</button>
+                <button type="submit" name="fromWhere" value="index">Add To Cart</button>
               </form>
             </div>
           </div> 
           <%
-            }
-            if(productList.size()==0){
-              out.println("<h3>Coming Soon! </h3>");
+              }
             }
           %>
         </div>
+        <hr>
+        <%
+          }
+          if(productList.size()==0){
+            out.println("<h3>Coming Soon! </h3>");
+          }
+        %>
+
       </div>
     </div>
 

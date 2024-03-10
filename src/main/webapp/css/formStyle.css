@@ -20,9 +20,8 @@ body {
   overflow: hidden;
   background-color: var(--back);
   margin: auto;
-  margin-top: 25px;
+  margin-top: 55px;
   margin-bottom: 25px;
-  top: 20px;
   height: max-content;
   width: 50%;
   border: none;

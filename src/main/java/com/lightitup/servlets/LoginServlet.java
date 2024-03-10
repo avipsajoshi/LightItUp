@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("admin.jsp");
           } else if (logged_user.getUserType().equals("customer")) {
             //client.jsp
-            response.sendRedirect("customer.jsp");
+            response.sendRedirect("dashboard.jsp");
           } else {
             out.println("Error identifying user");
           }

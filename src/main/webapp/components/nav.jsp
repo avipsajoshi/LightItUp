@@ -101,7 +101,9 @@
     </script>
   </head>
   <body>
-
+    <!--    <h2>Creating Session factory object <% 
+          FactoryProvider.getFactory();
+    %>-->
     <%
       User user1 =(User)session.getAttribute("logged_user");
     %>
