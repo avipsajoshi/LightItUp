@@ -17,6 +17,7 @@ public class OrderTable {
   private int quantity;
   private double total;
   private String status;
+  private String payment;
   @ManyToOne
   private User orderUser;
   @ManyToOne
@@ -25,19 +26,21 @@ public class OrderTable {
   public OrderTable() {
   }
 
-  public OrderTable(int Id, int quantity, double total, String status, User orderUser, Product orderProduct) {
+  public OrderTable(int Id, int quantity, double total, String status, String payment, User orderUser, Product orderProduct) {
     this.Id = Id;
     this.quantity = quantity;
     this.total = total;
     this.status = status;
+    this.payment = payment;
     this.orderUser = orderUser;
     this.orderProduct = orderProduct;
   }
 
-  public OrderTable(int quantity, double total, String status, User orderUser, Product orderProduct) {
+  public OrderTable(int quantity, double total, String status, String payment, User orderUser, Product orderProduct) {
     this.quantity = quantity;
     this.total = total;
     this.status = status;
+    this.payment = payment;
     this.orderUser = orderUser;
     this.orderProduct = orderProduct;
   }
@@ -74,6 +77,15 @@ public class OrderTable {
     this.status = status;
   }
 
+  public String getPayment() {
+    return payment;
+  }
+
+  public void setPayment(String payment) {
+    this.payment = payment;
+  }
+  
+
   public User getOrderUser() {
     return orderUser;
   }
@@ -92,9 +104,7 @@ public class OrderTable {
 
   @Override
   public String toString() {
-    return "OrderTable{" + "Id=" + Id + ", quantity=" + quantity + ", total=" + total + ", status=" + status + ", orderUser=" + orderUser + ", orderProduct=" + orderProduct + '}';
-  }
-  
-  
+    return "OrderTable{" + "Id=" + Id + ", quantity=" + quantity + ", total=" + total + ", status=" + status + ", payment=" + payment + ", orderUser=" + orderUser + ", orderProduct=" + orderProduct + '}';
+  }  
 
 }

@@ -1,3 +1,4 @@
+com\lightitup\servlets\CartCheckoutServlet.class
 com\lightitup\dao\UserDao.class
 com\lightitup\servlets\LoginServlet.class
 com\lightitup\entities\User.class

@@ -3,9 +3,15 @@
     Created on : 5 Feb 2024, 14:40:08
     Author     : Dell
 --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.lightitup.entities.User" %>
+<%@page import="com.lightitup.entities.OrderTable" %>
 <%@page import="com.lightitup.helper.FactoryProvider" %>
 <%@page import="com.lightitup.dao.CategoryDao" %>
+<%@page import="com.lightitup.dao.UserDao" %>
+<%@page import="com.lightitup.dao.ProductDao" %>
+<%@page import="com.lightitup.dao.OrderDao" %>
 <%@page import="java.util.List" %>
 <% 
   User user =(User)session.getAttribute("logged_user");
@@ -23,8 +29,6 @@
   }
 
 %>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -36,9 +40,7 @@
 
   </head>
   <body>
-
     <%@include file="components/nav.jsp"%>
-
     <script>
       pop_p = "popup-product";
       pop_c = "popup-category";
@@ -51,35 +53,45 @@
       }
     </script>
     <%@include file="components/message.jsp"%>
+    <%
+      UserDao udao =new UserDao(FactoryProvider.getFactory());
+      List<User> allCustomerUsers = udao.getUserByType("customer");
+      List<User> allAdminUsers = udao.getUserByType("admin");
+      ProductDao pdao =new ProductDao(FactoryProvider.getFactory());
+      List<Product> allProducts = pdao.getAllProducts();
+      OrderDao odao =new OrderDao(FactoryProvider.getFactory());
+      List<OrderTable> allOrdersCompleted = odao.getOrdersByStatus("completed");
+      List<OrderTable> allOrdersPending = odao.getOrdersByStatus("pending");
+    %>
     <div class="grid-container-admin">
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-user-group"></i>
+          <a href="./admin-view.jsp?view=users"><i class="fa-solid fa-user-group"></i></a>
         </div>
         <div class="info-container">
-          <div class="description">Users</div>
-          <div class="number">300</div>
+          <p class="description">Users</p>
+          <p class="number"><%=allCustomerUsers.size()%></p>
         </div>
       </div>
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-list"></i>
+          <a href="./admin-view.jsp?view=orders"><i class="fa-solid fa-list"></i></a>
         </div>
         <div class="info-container">
-          <div class="description">Order</div>
-          <div class="number">Completed : 200</div>
-          <div class="number">Pending: 300</div>
+          <p class="description">Order</p>
+          <p class="number">Completed : <%=allOrdersCompleted.size()%></p>
+          <p class="number">Pending: <%=allOrdersPending.size()%></p>
         </div>
       </div>
 
 
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-table-cells-large"></i>
+          <a href="./admin-view.jsp?view=categories"><i class="fa-solid fa-table-cells-large"></i></a>
         </div>
         <div class="info-container">
-          <div class="description">Categories</div>
-          <div class="number">40</div>
+          <p class="description">Categories</p>
+          <p class="number"><%=allCategories.size()%></p>
           <div class="add-container">
             <button onclick="openPopup(pop_c)">ADD</button>
           </div>
@@ -108,11 +120,11 @@
 
       <div class="card">
         <div class="image-container">
-          <i class="fa-solid fa-box-open"></i>
+          <a href="./admin-view.jsp?view=products"><i class="fa-solid fa-box-open"></i></a>
         </div>
         <div class="info-container">
-          <div class="description">Products</div>
-          <div class="number">100</div>
+          <p class="description">Products</p>
+          <p class="number"><%=allProducts.size()%></p>
           <div class="add-container">
             <button onclick="openPopup(pop_p)">ADD</button>
           </div>
@@ -157,14 +169,10 @@
               <br>
               <!--product category drop down-->
 
-              <%
-                CategoryDao productCDAO =new CategoryDao(FactoryProvider.getFactory());
-                List<Category> allCategoriesList = productCDAO.getAllCategory();
-              %>
               <select name="catId" id="select-category">
                 <%
-                  for(Category pro_c : allCategoriesList){                               %>
-                <option value="<%= pro_c.getCategoryId()%>"><%= pro_c.getCategoryTitle()%></option>
+                  for(Category pro_c : allCategories){                               %>
+                <option value="<%=pro_c.getCategoryId()%>" label="catTitle"><%=pro_c.getCategoryTitle()%></option>
                 <%
                   }
                 %>
@@ -176,8 +184,6 @@
       </div>
     </div>
     <script>
-
-
       //validation
       const categoryForm = document.querySelector("#category-form");
       const productForm = document.querySelector("#product-form");

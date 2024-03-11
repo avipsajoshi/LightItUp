@@ -20,6 +20,10 @@
         <servlet-name>AddToCart</servlet-name>
         <servlet-class>com.lightitup.servlets.AddToCart</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartCheckoutServlet</servlet-name>
+        <servlet-class>com.lightitup.servlets.CartCheckoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AddToCart</servlet-name>
         <url-pattern>/AddToCart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartCheckoutServlet</servlet-name>
+        <url-pattern>/CartCheckoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

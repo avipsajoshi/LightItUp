@@ -5,6 +5,27 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.lightitup.entities.OrderTable" %>
+<%@page import="com.lightitup.dao.UserDao" %>
+<%@page import="com.lightitup.dao.ProductDao" %>
+<%@page import="com.lightitup.dao.OrderDao" %>
+<%@page import="java.util.List" %>
+<% 
+  User user =(User)session.getAttribute("logged_user");
+  if(user == null){
+    session.setAttribute("message", "You are not logged in! Please login first. ");
+    response.sendRedirect("login.jsp");
+    return;
+  }
+  else{
+     if(user.getUserType().equals("admin")){
+      session.setAttribute("message", "You donot have access to this page.");
+      response.sendRedirect("login.jsp");
+      return;
+    }
+  }
+
+%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +42,8 @@
         border-bottom-left-radius: 8px;
         overflow: hidden;
         margin-bottom: 10px;
-        padding-right: 10px;;
+        padding-right: 10px;
+        ;
       }
 
       .card-head {
@@ -72,13 +94,13 @@
         display:inline-block;
         vertical-align: baseline;
         border: 2px solid var(--back);
-        outline: 2px solid var(--action); 
+        outline: 2px solid var(--action);
         /* border-radius: 53px; */
         cursor: pointer;
         border-radius:50%;
       }
       input[type="checkbox"]:checked + label:before{
-        background-color: var(--action); 
+        background-color: var(--action);
         outline: 2px solid var(--action);
       }
       .form{
@@ -104,7 +126,8 @@
   <body>
     <%@include file="components/nav.jsp"%>
     <link rel="stylesheet" href="css/displaybody.css" />
-    <form action="">
+    <h3>Your Cart</h3>
+    <form action="/CartCheckoutServlet">
       <div class="form">
         <div class="cards">
           <div class="card-container" style="max-width: 540px;">

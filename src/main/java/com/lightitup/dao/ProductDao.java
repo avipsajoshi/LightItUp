@@ -57,25 +57,28 @@ public class ProductDao {
     }
     return list;
   }
-  
+
   public List<Product> getProductsByCategoryId(int cid) {
     Session s = this.factory.openSession();
     Query pq = s.createQuery("from Product as p where p.category.categoryId =:catid", Product.class);
     pq.setParameter("catid", cid);
-    List<Product> list =pq.list();
+    List<Product> list = pq.list();
+    return list;
+  }
+
+  public List<Product> getProductsById(int productId) {
+    Session s = this.factory.openSession();
+    Query pq = s.createQuery("from Product as p where p.pId =:pid", Product.class);
+    pq.setParameter("pid", productId);
+    List<Product> list = pq.list();
     return list;
   }
   
-  public Product getProductById(int productId) {
-    Product pd = null;
-    try {
-      Session session = this.factory.openSession();
-      //use get or load - get will return null value
-      pd = session.get(Product.class, productId);
-      session.close();
-    } catch (Exception w) {
-      w.printStackTrace();
-    }
-    return pd;
+  public List<Product> getProductsBySearch(String searchname) {
+    Session s = this.factory.openSession();
+    Query pq = s.createQuery("from Product where pName LIKE %:search%", Product.class);
+    pq.setParameter("search", searchname);
+    List<Product> list = pq.list();
+    return list;
   }
 }

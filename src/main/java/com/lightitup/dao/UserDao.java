@@ -5,6 +5,7 @@ import com.lightitup.entities.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 public class UserDao {
 
@@ -40,4 +41,13 @@ public class UserDao {
     }
     return user;
   }
+
+  public List<User> getUserByType(String type) {
+    Session s = this.factory.openSession();
+    Query q = s.createQuery("count(*) as Num From User WHERE userType = :type", User.class);
+    q.setParameter("type", type);
+    List<User> list = q.list();
+    return list;
+  }
+
 }

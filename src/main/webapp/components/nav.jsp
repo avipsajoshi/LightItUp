@@ -123,27 +123,25 @@
             ></a>
         </li>
         <li>
-          <a>
-            <div class="search-container">
-              <form action="" method="post" class="search-form">
-                <button
-                  type="submit"
-                  id="search_button"
-                  style="border: none; background: none"
-                  >
-                  <i class="fa-solid fa-magnifying-glass" id="mag-glass"></i>
-                </button>
-                <input
-                  type="text"
-                  name="search-value"
-                  id="search-value"
-                  placeholder="Search"
-                  />
-              </form>
-            </div>
-          </a>
+          <div class="search-container">
+            <form action="" method="post" class="search-form">
+              <button
+                type="submit"
+                id="search_button"
+                style="border: none; background: none"
+                >
+                <i class="fa-solid fa-magnifying-glass" id="mag-glass"></i>
+              </button>
+              <input
+                type="text"
+                name="search-value"
+                id="search-value"
+                placeholder="Search"
+                />
+            </form>
+          </div>
         </li>
-        <li><a href="#">Home</a></li>
+        <li><a href="index.jsp">Home</a></li>
         <li class="toggleList" onclick="toggleDropdown()">
           <a href="#">Categories</a>
           <div class="dropdown">
@@ -195,11 +193,11 @@
             ></a>
         </li>
         <li>
-          <a href="./index.jsp" id="navImageAnchor"><img src="images/l_text.png" alt="????"  id="navImage"/></a>
+          <a href="./index.jsp" id="navImageAnchor"><img src="images/l_text.png" alt="logo"  id="navImage"/></a>
         </li>
         <li class="hideOnMobile search">
           <div class="search-container">
-            <form action="" method="post" class="search-form">
+            <form action="/SearchServlet" method="post" class="search-form">
               <button
                 type="submit"
                 id="search_button"
@@ -224,7 +222,7 @@
               <%
                 for(Category c : allCategories){ 
               %>
-              <li><a href="search.jsp/<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></a></li>
+              <li><a href="./search.jsp/<%= c.getCategoryId()%>"><%= c.getCategoryTitle()%></a></li>
                 <%
                   }
                 %>
@@ -233,7 +231,7 @@
         </li>
         <li class="hideOnMobile"><a href="#">About</a></li>
         <li class="hideOnMobile">
-          <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a href="./cart.jsp"><i class="fa-solid fa-cart-shopping"></i></a>
         </li>
         <li class="hideOnMobile">
           <a href="#"><i class="fa-solid fa-user"></i></a>

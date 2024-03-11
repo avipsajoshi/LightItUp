@@ -32,6 +32,7 @@
     <div id="main">
       <%
         String category = request.getParameter("cat");
+        String search = request.getParameter("search");
         ProductDao getProductsDao = new ProductDao(FactoryProvider.getFactory());
         List<Product> productList = null;
         if(category == null || category.trim().equals("all")){
@@ -40,6 +41,15 @@
         else{
           int catId=Integer.parseInt(category.trim());
           productList = getProductsDao.getProductsByCategoryId(catId);
+        }
+        if(search.trim().equal("num")){
+          String productId = request.getParameter("product");
+          int productIdSearch = Integer.parseInt(productId);
+          productList = getProductsDao.getProductsById(productIdSearch);
+        }
+        else if(search.trim().equal("nan")){
+          String searchname = request.getParameter("searchname");
+          productList = getProductsDao.getProductsBySearch(searchname);
         }
       %>
       <div class="list-group" id="main-sidebar">
@@ -63,12 +73,14 @@
         %>
         <p><%=cat.getCategoryTitle()%></p>
         <div class="grid-container">
+          
           <%
             for(Product prod:productList){
             if(prod.getCategory().getCategoryId() == cat.getCategoryId()){
           %>
           <!--product card-->
           <div class="card" id="product-card">
+            <a href="index.jsp?search=num?product=<%=prod.getpId()%>">
             <div class="image-container">
               <img src="images/product-images/<%=prod.getpPhoto() %>" alt="<%=prod.getpPhoto() %>"/>
               <!--<img src="https://via.placeholder.com/200" alt=<%//=prod.getpPhoto() %> />-->
@@ -77,12 +89,14 @@
               <p style="font-weight: 600"><%=prod.getpName() %></p>
               <p>NPR. <%=prod.getPriceAfterDiscount()%> <span class="text-secondary">NPR. <%=prod.getpPrice()%>, <%=prod.getpDiscount()%>% off</span></p>
             </div>
+            </a>
             <div class="add-to-cart-container">
               <form action="./AddToCart" method="post">
                 <input type="text" name="productId" value="<%=prod.getpId()%>" hidden>
                 <button type="submit" name="fromWhere" value="index">Add To Cart</button>
               </form>
             </div>
+            
           </div> 
           <%
               }

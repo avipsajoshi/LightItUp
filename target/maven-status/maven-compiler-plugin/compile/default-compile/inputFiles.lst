@@ -7,6 +7,7 @@ D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\servlet
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\resources\JakartaEE10Resource.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\dao\CartDao.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\helper\Helper.java
+D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\servlets\CartCheckoutServlet.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\servlets\Register.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\dao\UserDao.java
 D:\E\5th sem\MIS project LightItUp\LightItUp\src\main\java\com\lightitup\entities\User.java
