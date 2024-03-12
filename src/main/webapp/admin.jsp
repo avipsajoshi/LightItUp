@@ -27,6 +27,14 @@
       return;
     }
   }
+  
+  UserDao udao =new UserDao(FactoryProvider.getFactory());
+  List<User> allCustomerUsers = udao.getUserByType("customer");
+  ProductDao pdao =new ProductDao(FactoryProvider.getFactory());
+  List<Product> allProducts = pdao.getAllProducts();
+  OrderDao odao =new OrderDao(FactoryProvider.getFactory());
+  List<OrderTable> allOrdersCompleted = odao.getOrdersByStatus("completed");
+  List<OrderTable> allOrdersPending = odao.getOrdersByStatus("pending");
 
 %>
 <!DOCTYPE html>
@@ -37,10 +45,6 @@
     <link rel="stylesheet" href="css/fontAndColors.css" />
     <link rel="stylesheet" href="css/cardStyle.css" />
     <link rel="stylesheet" href="css/adminCardForms.css" />
-
-  </head>
-  <body>
-    <%@include file="components/nav.jsp"%>
     <script>
       pop_p = "popup-product";
       pop_c = "popup-category";
@@ -52,30 +56,24 @@
         document.getElementById(popup).style.display = "none";
       }
     </script>
+  </head>
+  <body>
+    <%@include file="components/nav.jsp"%>
     <%@include file="components/message.jsp"%>
-    <%
-      UserDao udao =new UserDao(FactoryProvider.getFactory());
-      List<User> allCustomerUsers = udao.getUserByType("customer");
-      List<User> allAdminUsers = udao.getUserByType("admin");
-      ProductDao pdao =new ProductDao(FactoryProvider.getFactory());
-      List<Product> allProducts = pdao.getAllProducts();
-      OrderDao odao =new OrderDao(FactoryProvider.getFactory());
-      List<OrderTable> allOrdersCompleted = odao.getOrdersByStatus("completed");
-      List<OrderTable> allOrdersPending = odao.getOrdersByStatus("pending");
-    %>
+
     <div class="grid-container-admin">
       <div class="card">
         <div class="image-container">
-          <a href="./admin-view.jsp?view=users"><i class="fa-solid fa-user-group"></i></a>
+          <a href="./admin-view.jsp?view=users&type=customer"><i class="fa-solid fa-user-group"></i></a>
         </div>
         <div class="info-container">
-          <p class="description">Users</p>
+          <p class="description">Customers</p>
           <p class="number"><%=allCustomerUsers.size()%></p>
         </div>
       </div>
       <div class="card">
         <div class="image-container">
-          <a href="./admin-view.jsp?view=orders"><i class="fa-solid fa-list"></i></a>
+          <a href="./admin-view.jsp?view=allorders&status=pending"><i class="fa-solid fa-list"></i></a>
         </div>
         <div class="info-container">
           <p class="description">Order</p>
@@ -165,14 +163,14 @@
               <br>
               <input type="file" id="product-image" name="product-image" required />
               <br>
-              <label for="catId">Category: </label>
+              <label for="select-category">Category: </label>
               <br>
               <!--product category drop down-->
 
               <select name="catId" id="select-category">
                 <%
                   for(Category pro_c : allCategories){                               %>
-                <option value="<%=pro_c.getCategoryId()%>" label="catTitle"><%=pro_c.getCategoryTitle()%></option>
+                <option value="<%=pro_c.getCategoryId()%>"><%=pro_c.getCategoryTitle()%></option>
                 <%
                   }
                 %>
@@ -187,11 +185,10 @@
       //validation
       const categoryForm = document.querySelector("#category-form");
       const productForm = document.querySelector("#product-form");
-      const c_btn = document.getElementByClass("submitBtn-category");
-      const p_btn = document.getElementByClass("submitBtn-product");
       const nameInput = document.getElementById("category-name");
       const descriptionInput = document.getElementById("category-description");
       const nameError = document.getElementById("category-name-error");
+      const descriptionError = document.getElementById("category-description-error");
 
       //product from validation input
       const productNameInput = document.getElementById("product-name");
@@ -230,29 +227,36 @@
       function validateText(input, error_class) {
         const namevalue = input.value.trim();
         const error = error_class;
+        var flag =0;
         const nameregex = /^[a-zA-Z\s]+$/;
         if (namevalue === "") {
           setError(input, " Cannot be Empty", error);
+          flag=1;
           return false;
         } else if (!nameregex.test(namevalue)) {
           setError(input, " Cannot contain number.", error);
+          flag=1;
           return false;
-        } else {
+        } else if(flag === 1 ){
           removeError(input, error);
+          flag=0;
+          return true;
+        }else{
+          flag=0;
           return true;
         }
       }
       // Set error message
       function setError(inputElement, message, errorId) {
         const errorElement = document.getElementById(errorId);
-        errorElement.textContent = message;
+        errorElement.innerHTML = message;
         inputElement.classList.add("error-message");
       }
 
       // Remove error message
       function removeError(inputElement, errorId) {
         const errorElement = document.getElementById(errorId);
-        errorElement.textContent = "";
+        errorElement.innerHTML = "";
         inputElement.classList.remove("error-message");
       }
 

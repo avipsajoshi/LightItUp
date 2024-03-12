@@ -6,25 +6,31 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.lightitup.entities.OrderTable" %>
+<%@page import="com.lightitup.entities.Cart" %>
 <%@page import="com.lightitup.dao.UserDao" %>
+<%@page import="com.lightitup.dao.CartDao" %>
 <%@page import="com.lightitup.dao.ProductDao" %>
 <%@page import="com.lightitup.dao.OrderDao" %>
 <%@page import="java.util.List" %>
 <% 
-  User user =(User)session.getAttribute("logged_user");
-  if(user == null){
+  User cuser =(User)session.getAttribute("logged_user");
+  if(cuser == null){
     session.setAttribute("message", "You are not logged in! Please login first. ");
     response.sendRedirect("login.jsp");
     return;
   }
   else{
-     if(user.getUserType().equals("admin")){
+     if(cuser.getUserType().equals("admin")){
       session.setAttribute("message", "You donot have access to this page.");
       response.sendRedirect("login.jsp");
       return;
     }
   }
-
+  CartDao cartdao =new CartDao(FactoryProvider.getFactory());
+  List<Cart> allCartItems = cartdao.getCartItemsByUserId(cuser.getUserId());
+  
+  ProductDao pdao =new ProductDao(FactoryProvider.getFactory());
+  Product products = new Product();
 %>
 <!DOCTYPE html>
 <html>
@@ -121,55 +127,67 @@
         width: 100%;
         height:auto;
       }
+      .changeBtn{
+        width: max-content;
+        height: auto;
+        border:none;
+      }
+      h3{
+        margin-top: 50px;
+      }
+      a{
+        color: black;
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
     <%@include file="components/nav.jsp"%>
     <link rel="stylesheet" href="css/displaybody.css" />
     <h3>Your Cart</h3>
-    <form action="/CartCheckoutServlet">
+    <a href="customer-order.jsp">Your Orders</a>
+    <form action="/CartCheckoutServlet" method="post">
       <div class="form">
         <div class="cards">
+          <%
+            for(Cart c :allCartItems){
+              products = pdao.getProductById(c.getCartProduct().getpId());
+              int productId = products.getpId();
+          %>
           <div class="card-container" style="max-width: 540px;">
             <div class="card-head">
               <div class="image-container">
-                <img src="https://via.placeholder.com/200" class="product-image" alt="img">
+                <img src="images/product-images/<%=products.getpPhoto()%>" class="product-image prod<%=productId%>" alt="img">
               </div>
               <div class="info-container">
                 <div class="card-body">
-                  <h5 class="card-title">Product Title</h5>
+                  <input class="jsGet" name="prodID" value="prodS<%=productId%>" hidden>
+                  <h5 class="card-title prod<%=productId%>"><%=products.getpName()%></h5>
                   <hr>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><%=products.getpDescription()%></p>
+                  <p class="card-text"><%=products.getPriceAfterDiscount()%></p>
+                  <label class="prod<%=productId%>" hidden><%=products.getpPrice()%></label>
+                  <label class="prod<%=productId%>" hidden><%=products.getpDiscount()%></label>
                   <div class="change" style="max-width: fit-content;">
-                    <button type="button" onclick="decreaseValue('quantity')" >-</button>
-                    <input type="text" name="cart-qty" id="quantity" value="1" />
-                    <button type="button" onclick="increaseValue('quantity')" >+</button>
+                    <button type="button" class="changeBtn" onclick="decreaseValue('quantity_prod<%=productId%>')" >-</button><input type="text" class="prod<%=productId%> changeBtn" name="cart-qty" id="quantity_prod<%=productId%>" value="<%=c.getQuantity()%>" /><button type="button" class="changeBtn" onclick="increaseValue('quantity_prod<%=productId%>')" >+</button>
                   </div>
                 </div>
               </div>
               <div class="checkboxes">
-                <input type="checkbox" name="checkbox" id="01" <%=something%>><label for="01" <%=something%>></label>
+                <input type="checkbox" class="checkbox" name="checkbox" id="<%=productId%>">
+                <label for="<%=productId%>"></label>
               </div>
             </div>
           </div>
-
+          <%
+            }
+          %>
         </div>
 
 
         <div class="bill">
-          <h2>BILL</h2>
-          <div class="bill-body">
-            <div class="bill-card">
-              <div class="bill-image-container">
-                <img src="https://via.placeholder.com/200" alt="Image" />
-              </div>
-              <div class="bil-info-container">
-                <p class="product-name">Name</p>
-                <p class="product-price">NPR. </p>
-                <p class="product-qty">Qty: </p>
-              </div>
-            </div>
-            <hr>
+          <h2>Your Items</h2>
+          <div class="bill-body" id="bill-body">
           </div>
           <div class="total">
             <div class="total-text">
@@ -178,14 +196,14 @@
               <p>Grand Total</p>
             </div>
             <div class="total-num">
-              <p>123124</p>
-              <p>12 %</p>
-              <p>3346475</p>
+              <p id="total"></p>
+              <p id="discount"></p>
+              <p id="gtotal"></p>
             </div>
           </div>
+          <button type="submit" name="userId" value="<%=cuser.getUserId()%>">Check Out</button>
         </div>
       </div>
-      <button type="submit">Check Out</button>
     </form>
     <script>
       function increaseValue(qtyId) {
@@ -207,6 +225,57 @@
         }
         console.log(number);
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".checkbox");
+        const bill_card = document.getElementById("bill-body");
+        const total = document.getElementById("total");
+        const discount = document.getElementById("discount");
+        const gtotal = document.getElementById("gtotal");
+        checkboxes.forEach(function (checkbox) {
+          checkbox.addEventListener("change", function () {
+            var t = 0, d = 0, g = 0, ch = 0;
+            const checkboxId = this.id;
+            const checkboxProduct = this.getElementsByClassName('prod' + checkboxId);
+            const divId = "div" + checkboxId.charAt(checkboxId.length - 1);
+            let divToRemove = document.getElementById(divId);
+            if (this.checked) {
+              if (!divToRemove) {
+                ch++;
+                const newDiv = document.createElement("div");
+                newDiv.id = divId;
+                newDiv.classList.add("bill-card")
+                newDiv.classList.add("content");
+                newDiv.innerHTML = "<div class='bill-image-container'><img src='images/product-images/" + checkboxProduct[0] + "' alt='Image' /></div><div class='bil-info-container'><p class='product-name'>" + checkboxProduct[1] + "</p><p class='product-price'>" + checkboxProduct[2] + "</p><p class='product-qty'>Qty:" + checkboxProduct[4] + "</p></div>";
+                t = t + parseFloat(checkboxProduct[2].innerText);
+                d = d + parseFloat(checkboxProduct[3].innerText);
+                g = g + (parseFloat(checkboxProduct[2].innerText) - (parseFloat(checkboxProduct[2].innerText) * parseFloat(checkboxProduct[3].innerText) / 100));
+                bill_card.appendChild(newDiv);
+              }
+            } else {
+              if (divToRemove) {
+                ch--;
+                if (t !== 0 && g !== 0 && d !== 0) {
+                  t = t - parseFloat(checkboxProduct[2].innerText);
+                  d = d - parseFloat(checkboxProduct[3].innerText);
+                  g = g - (parseFloat(checkboxProduct[2].innerText) - (parseFloat(checkboxProduct[2].innerText) * parseFloat(checkboxProduct[3].innerText) / 100));
+                } else {
+                  t = 0;
+                  d = 0;
+                  g = 0;
+                }
+                bill_card.removeChild(divToRemove);
+              }
+              total.innerText = t;
+              discount.innerText = d / ch + "%";
+              gtotal.innerText = g;
+
+            }
+          });
+        });
+      });
+
+
     </script>
   </body>
 </html>

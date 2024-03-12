@@ -44,10 +44,26 @@ public class UserDao {
 
   public List<User> getUserByType(String type) {
     Session s = this.factory.openSession();
-    Query q = s.createQuery("count(*) as Num From User WHERE userType = :type", User.class);
+    Query q = s.createQuery("From User WHERE userType = :type", User.class);
     q.setParameter("type", type);
     List<User> list = q.list();
     return list;
   }
+  public User getUserById(int uid) {
+    User p = null;
+    try {
+      Session session = this.factory.openSession();
+      Query pq = session.createQuery("from User as p WHERE p.userId =:pid", User.class);
+      pq.setParameter("pid", uid);
+      List<User> list = pq.list();
+      if (!list.isEmpty()) {
+        p = list.get(0);//returns single user object(row)
+      }
+      session.close();
+    } catch (Exception w) {
+      w.printStackTrace();
 
+    }
+    return p;
+  }
 }

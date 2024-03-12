@@ -38,27 +38,63 @@ public class AddToCart extends HttpServlet {
                 response.sendRedirect("dashboard.jsp");
               } else {
                 Cart cart = new Cart();
+                CartDao cart1 = new CartDao(FactoryProvider.getFactory());
                 int prodId = Integer.parseInt(productID);
-                String dashboard = request.getParameter("fromWhere");
-                if (dashboard.trim().equals("dashboard")) {
-                  cart.setQuantity(1);
-                } else if (dashboard.trim().equals("view")) {
+                String fromWhere = request.getParameter("fromWhere");
+                if (fromWhere.trim().equals("dashboard")) {
+                  boolean existing = cart1.checkCartItemByUserIdAndProductId(alreadyLogged.getUserId(), prodId);
+                  if (existing == true) {
+                    Cart cartToUpdate = cart1.getCartItemByUserIdAndProductId(alreadyLogged.getUserId(), prodId);
+                    boolean updated = cart1.updateCart(cartToUpdate, cartToUpdate.getQuantity() + 1);
+                    if (updated == true) {
+                      httpSession.setAttribute("message", "Product Added to Cart!");
+                    } else {
+                      httpSession.setAttribute("message", "Error Adding Product to Cart. Please Try again!");
+                    }
+                  } else {
+                    cart.setQuantity(1);
+                    ProductDao pdao = new ProductDao(FactoryProvider.getFactory());
+                    Product productitem = pdao.getProductById(prodId);
+                    cart.setCartProduct(productitem);
+                    cart.setCartUser(alreadyLogged);
+                    cart.setCheckout("not checked out");
+                    cart.setTotal(productitem.getPriceAfterDiscount());
+                    CartDao cartDao = new CartDao(FactoryProvider.getFactory());
+                    boolean added = cartDao.addCart(cart);
+                    if (added == true) {
+                      httpSession.setAttribute("message", "Product Added to Cart!");
+                    } else {
+                      httpSession.setAttribute("message", "Error Adding Product to Cart. Please Try again!");
+                    }
+                  }
+                } else if (fromWhere.trim().equals("view")) {
                   String newQty = request.getParameter("view-qty");
                   int qty = Integer.parseInt(newQty);
-                  cart.setQuantity(qty);
-                }
-                ProductDao pdao = new ProductDao(FactoryProvider.getFactory());
-                Product productitem = pdao.getProductById(prodId);
-                cart.setCartProduct(productitem);
-                cart.setCartUser(alreadyLogged);
-                cart.setCheckout("not checked out");
-                cart.setTotal(productitem.getPriceAfterDiscount());
-                CartDao cartDao = new CartDao(FactoryProvider.getFactory());
-                boolean added = cartDao.addCart(cart);
-                if (added == true) {
-                  httpSession.setAttribute("message", "Product Added to Cart!");
-                } else {
-                  httpSession.setAttribute("message", "Error Adding Product to Cart. Please Try again!");
+                  boolean existing = cart1.checkCartItemByUserIdAndProductId(alreadyLogged.getUserId(), prodId);
+                  if (existing == true) {
+                    Cart cartToUpdate = cart1.getCartItemByUserIdAndProductId(alreadyLogged.getUserId(), prodId);
+                    boolean updated = cart1.updateCart(cartToUpdate, cartToUpdate.getQuantity() + qty);
+                    if (updated == true) {
+                      httpSession.setAttribute("message", "Product Added to Cart!");
+                    } else {
+                      httpSession.setAttribute("message", "Error Adding Product to Cart. Please Try again!");
+                    }
+                  } else {
+                    cart.setQuantity(qty);
+                    ProductDao pdao = new ProductDao(FactoryProvider.getFactory());
+                    Product productitem = pdao.getProductById(prodId);
+                    cart.setCartProduct(productitem);
+                    cart.setCartUser(alreadyLogged);
+                    cart.setCheckout("not checked out");
+                    cart.setTotal(productitem.getPriceAfterDiscount());
+                    CartDao cartDao = new CartDao(FactoryProvider.getFactory());
+                    boolean added = cartDao.addCart(cart);
+                    if (added == true) {
+                      httpSession.setAttribute("message", "Product Added to Cart!");
+                    } else {
+                      httpSession.setAttribute("message", "Error Adding Product to Cart. Please Try again!");
+                    }
+                  }
                 }
               }
             } catch (Exception e) {

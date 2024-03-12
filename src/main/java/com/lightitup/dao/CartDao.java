@@ -114,10 +114,52 @@ public class CartDao {
 
   public List<Cart> getCartItemsByUserId(int uid) {
     Session s = this.factory.openSession();
-    Query q = s.createQuery("from Cart as c WHERE c.user.userId = :uid", Cart.class);
+    Query q = s.createQuery("from Cart as c WHERE c.cartUser.userId = :uid", Cart.class);
     q.setParameter("uid", uid);
     List<Cart> list = q.list();
     return list;
   }
 
+  public boolean checkCartItemByUserIdAndProductId(int uid, int pid) {
+//    Query q = s.createQuery("from Cart as c WHERE c.cartUser.userId = :uid and c.cartProduct.pId = :pid", Cart.class);
+    Cart p = null;
+    boolean f = false;
+    try {
+      Session session = this.factory.openSession();
+      Query pq = session.createQuery("from Cart as c WHERE c.cartUser.userId = :uid and c.cartProduct.pId = :pid", Cart.class);
+      pq.setParameter("uid", uid);
+      pq.setParameter("pid", pid);
+      List<Cart> list = pq.list();
+      if (!list.isEmpty()) {
+        p = list.get(0);//returns single user object(row)
+        f=true;
+      }
+      else{
+        f=false;
+      }
+      session.close();
+    } catch (Exception w) {
+      f=false;
+      w.printStackTrace();
+    }
+    return f;
+  }
+  public Cart getCartItemByUserIdAndProductId(int uid, int pid) {
+//    Query q = s.createQuery("from Cart as c WHERE c.cartUser.userId = :uid and c.cartProduct.pId = :pid", Cart.class);
+    Cart p = null;
+    try {
+      Session session = this.factory.openSession();
+      Query pq = session.createQuery("from Cart as c WHERE c.cartUser.userId = :uid and c.cartProduct.pId = :pid", Cart.class);
+      pq.setParameter("uid", uid);
+      pq.setParameter("pid", pid);
+      List<Cart> list = pq.list();
+      if (!list.isEmpty()) {
+        p = list.get(0);//returns single user object(row)
+      }
+      session.close();
+    } catch (Exception w) {
+      w.printStackTrace();
+    }
+    return p;
+  }
 }
