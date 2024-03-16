@@ -38,12 +38,13 @@ public class CartDao {
     Session session = this.factory.openSession();
     Transaction tx = session.beginTransaction();
     try {
-      Cart cat = session.get(Cart.class, cart.getcId());
-      if (cat != null) {
-        // Step 2: Delete the object from the database
-        session.remove(cat);
-        session.getTransaction().commit();
-        tx.commit();
+      Cart cat= new Cart();
+      Query query = session.createQuery("DELETE from Cart as c WHERE c.Id = :cartId ", Cart.class);
+      query.setParameter("cartId", cart.getcId());
+      int rowCount = query.executeUpdate();
+      System.out.println("Rows affected: " + rowCount);
+      if (rowCount >= 1) {
+        f = true;
       }
       f = true;
     } catch (HibernateException e) {

@@ -5,7 +5,6 @@ import com.lightitup.dao.ProductDao;
 import com.lightitup.entities.Category;
 import com.lightitup.entities.Product;
 import com.lightitup.helper.FactoryProvider;
-import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +17,7 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 
 //a multipart configuration data accept
 @MultipartConfig
@@ -74,32 +74,72 @@ public class ProductOperationServlet extends HttpServlet {
         out.print("product going category2");
 
         product.setCategory(productcategory);
-        //to retrieve file from <input type="file" name="product-image">
-        Part filepart = request.getPart("product-image");
-        product.setpPhoto(filepart.getSubmittedFileName());
-        out.print("product going file name extracted");
+//        //to retrieve file from <input type="file" name="product-image">
+//        Part filepart = request.getPart("product-image");
+//        product.setpPhoto(filepart.getSubmittedFileName());
+//        out.print("product going file name extracted");
+//
+//        //saving photo to path "product-images"
+//        ServletContext context = request.getServletContext();
+//        String path = context.getRealPath("/images/product-images/") + filepart.getSubmittedFileName();
+//        out.print("product file path going");
+//
+//        try {
+//          //uploading---
+//          FileOutputStream fos = new FileOutputStream(path);
+//
+//          FileInputStream fis = (FileInputStream) filepart.getInputStream();
+//          //reading data
+//          byte[] data = new byte[fis.available()];
+//          out.print("product read write going");
+//
+//          fis.read(data);
+//          fos.write(data);
+//          fos.close();
+//
+//        } catch (Exception e) {
+//          e.printStackTrace();
+//        }
+        Part filePart = request.getPart("product-image");
+        String fileName = filePart.getSubmittedFileName();
 
-        //saving photo to path "product-images"
-        ServletContext context = request.getServletContext();
-        String path = context.getRealPath("/images/") + File.separator + "product-images" + File.separator + filepart.getSubmittedFileName();
-                out.print("product file path going");
+// Check if a file was actually uploaded
+        if (fileName != null && !fileName.isEmpty()) {
+          try {
+            // Set the file name for your product
+            product.setpPhoto(fileName);
 
-        try {
-          //uploading---
-          FileOutputStream fos = new FileOutputStream(path);
+            // Get the real path to store the file
+            String uploadDirectory = "/images/product-images/";
+            String realPath = getServletContext().getRealPath(uploadDirectory);
+            String filePath = realPath + File.separator + fileName;
 
-          FileInputStream fis = (FileInputStream) filepart.getInputStream();
-          //reading data
-          byte[] data = new byte[fis.available()];
-                  out.print("product read write going");
+            // Upload the file
+            try (InputStream inputStream = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
 
-          fis.read(data);
-          fos.write(data);
-          fos.close();
+              byte[] buffer = new byte[1024];
+              int bytesRead;
+              while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+              }
+            } catch (IOException e) {
+              // Handle file I/O error
+              e.printStackTrace();
+              // Optionally, you might want to throw an exception or return an error message
+            }
 
-        } catch (Exception e) {
-          e.printStackTrace();
+            // Continue with your logic after file upload
+            out.print("File uploaded successfully.");
+          } catch (Exception e) {
+            // Handle other exceptions
+            e.printStackTrace();
+            // Optionally, you might want to throw an exception or return an error message
+          }
+        } else {
+          // No file uploaded, handle this case accordingly
+          out.print("No file uploaded.");
         }
+
         //save this to database through ProductDao
         ProductDao productDao = new ProductDao(FactoryProvider.getFactory());
         out.print("product dao going");
@@ -115,8 +155,7 @@ public class ProductOperationServlet extends HttpServlet {
         } else {
           session.setAttribute("message", "Error Adding Product. Please Try again!");
         }
-
-//        response.sendRedirect("admin.jsp");
+        response.sendRedirect("admin.jsp");
       }
     }
   }

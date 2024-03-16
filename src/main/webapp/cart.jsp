@@ -5,13 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.lightitup.entities.OrderTable" %>
-<%@page import="com.lightitup.entities.Cart" %>
-<%@page import="com.lightitup.dao.UserDao" %>
-<%@page import="com.lightitup.dao.CartDao" %>
-<%@page import="com.lightitup.dao.ProductDao" %>
-<%@page import="com.lightitup.dao.OrderDao" %>
-<%@page import="java.util.List" %>
+<%@include file="components/commonImport.jsp"%>
+
 <% 
   User cuser =(User)session.getAttribute("logged_user");
   if(cuser == null){
@@ -21,14 +16,14 @@
   }
   else{
      if(cuser.getUserType().equals("admin")){
-      session.setAttribute("message", "You donot have access to this page.");
-      response.sendRedirect("login.jsp");
+      session.setAttribute("message", "You are admin. You do not have a cart");
+      response.sendRedirect("admin.jsp");
       return;
     }
   }
+  int userId = cuser.getUserId();
   CartDao cartdao =new CartDao(FactoryProvider.getFactory());
-  List<Cart> allCartItems = cartdao.getCartItemsByUserId(cuser.getUserId());
-  
+  List<Cart> allCartItems = cartdao.getCartItemsByUserId(userId);
   ProductDao pdao =new ProductDao(FactoryProvider.getFactory());
   Product products = new Product();
 %>
@@ -36,11 +31,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Your Cart</title>
+    <title>My Cart</title>
     <link rel="icon" type="image/png" href="images/l_img.png" />
     <style>
+      .cart-body{
+        margin-left: 50px;
+      }
       .card-container {
-        max-width: 540px;
+        width: calc(100vw / 2);
         border-bottom: 1px solid #ccc;
         border-top-left-radius: 8px;
         border-top-right-radius: 0px;
@@ -54,16 +52,28 @@
 
       .card-head {
         display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
 
       .image-container {
-        max-width: 40%;
+        max-width: 30%;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+      .product-image{
+        width: 100%;
+        height:auto;
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
       }
 
       .info-container {
-        max-width: 60%;
+        max-width: 40%;
       }
-
+      .cards{
+        width:50%;
+      }
       .card-body {
         padding: 1rem;
       }
@@ -84,6 +94,7 @@
 
       .checkboxes{
         position: relative;
+        margin-right: 45px;
       }
       input[type="checkbox"]{
         visibility: hidden;
@@ -111,14 +122,21 @@
       }
       .form{
         display: flex;
-        gap: 100px;
+        justify-content: space-evenly;
       }
       .bill{
-        margin-left: 50px;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+        margin: 50px;
+        padding: 30px;
       }
       .total,.bill-card{
         display: flex;
         gap: 20px;
+      }
+      .total p{
+        margin: 6px;
       }
       .bill-image-container{
         max-width: 100px;
@@ -128,83 +146,105 @@
         height:auto;
       }
       .changeBtn{
-        width: max-content;
+        width: 25px;
         height: auto;
         border:none;
+      }
+      input.changeBtn{
+        padding-left: 18px;
+      }
+      #myorders{
+        float: right;
+        margin-right: 50px;
       }
       h3{
         margin-top: 50px;
       }
-      a{
-        color: black;
-        text-decoration: none;
+      #checkoutButton{
+        border-radius: 20px;
+        padding: 5px 20px;
+        cursor: pointer;
+        margin: 30px;
+        font-size: medium;
+        font-family: inherit;
+        background-color: var(--back);
+        border: 2px solid var(--action);
+        color: var(--text);
+        transition: 0.3s;
+      }
+      #checkoutButton:hover{
+        background-color: var(--action);
+        color: var(--back);
       }
     </style>
   </head>
   <body>
     <%@include file="components/nav.jsp"%>
     <link rel="stylesheet" href="css/displaybody.css" />
-    <h3>Your Cart</h3>
-    <a href="customer-order.jsp">Your Orders</a>
-    <form action="/CartCheckoutServlet" method="post">
-      <div class="form">
-        <div class="cards">
-          <%
-            for(Cart c :allCartItems){
-              products = pdao.getProductById(c.getCartProduct().getpId());
-              int productId = products.getpId();
-          %>
-          <div class="card-container" style="max-width: 540px;">
-            <div class="card-head">
-              <div class="image-container">
-                <img src="images/product-images/<%=products.getpPhoto()%>" class="product-image prod<%=productId%>" alt="img">
-              </div>
-              <div class="info-container">
-                <div class="card-body">
-                  <input class="jsGet" name="prodID" value="prodS<%=productId%>" hidden>
-                  <h5 class="card-title prod<%=productId%>"><%=products.getpName()%></h5>
-                  <hr>
-                  <p class="card-text"><%=products.getpDescription()%></p>
-                  <p class="card-text"><%=products.getPriceAfterDiscount()%></p>
-                  <label class="prod<%=productId%>" hidden><%=products.getpPrice()%></label>
-                  <label class="prod<%=productId%>" hidden><%=products.getpDiscount()%></label>
-                  <div class="change" style="max-width: fit-content;">
-                    <button type="button" class="changeBtn" onclick="decreaseValue('quantity_prod<%=productId%>')" >-</button><input type="text" class="prod<%=productId%> changeBtn" name="cart-qty" id="quantity_prod<%=productId%>" value="<%=c.getQuantity()%>" /><button type="button" class="changeBtn" onclick="increaseValue('quantity_prod<%=productId%>')" >+</button>
+    <div class="cart-body">
+      <h3>My Cart</h3>
+      <a href="customer-order.jsp" id="myorders">My Orders</a>
+      <form id="cartForm" action="./CartCheckoutServlet" method="get">
+        <input name="userId" value="<%=userId%>" hidden>
+
+        <div class="form">
+          <div class="cards">
+            <%
+              for(Cart c :allCartItems){
+                products = pdao.getProductById(c.getCartProduct().getpId());
+                int productId = products.getpId();
+            %>
+            <div class="card-container" style="max-width: 540px;">
+              <div class="card-head">
+                <div class="image-container">
+                  <img src="images/product-images/<%=products.getpPhoto()%>" class="product-image prod<%=productId%>" alt="img">
+                </div>
+                <div class="info-container">
+                  <div class="card-body">
+                    <h5 class="card-title prod<%=productId%>"><%=Helper.get10Words(products.getpName())%></h5>
+                    <hr>
+                    <p class="card-text"><%=Helper.get10Words(products.getpDescription())%>
+                    </p>
+                    <p class="card-text"><%=products.getPriceAfterDiscount()%></p>
+                    <label class="prod<%=productId%>" hidden><%=products.getpPrice()%></label>
+                    <label class="prod<%=productId%>" hidden><%=products.getpDiscount()%></label>
+                    <div class="change" style="max-width: fit-content;">
+                      <button type="button" class="changeBtn" onclick="decreaseValue('quantity_prod<%=productId%>')" >-</button><input type="text" class="prod<%=productId%> changeBtn" name="cartqty-<%=productId%>" id="quantity_prod<%=productId%>" value="<%=c.getQuantity()%>" /><button type="button" class="changeBtn" onclick="increaseValue('quantity_prod<%=productId%>')" >+</button>
+                    </div>
                   </div>
                 </div>
+                <div class="checkboxes">
+                  <input type="checkbox" class="checkbox" name="checkbox" value="<%=productId%>" id="<%=productId%>">
+                  <label for="<%=productId%>"></label>
+                </div>
               </div>
-              <div class="checkboxes">
-                <input type="checkbox" class="checkbox" name="checkbox" id="<%=productId%>">
-                <label for="<%=productId%>"></label>
+            </div>
+            <%
+              }
+            %>
+          </div>
+          <div class="bill">
+            <h2>Place Order</h2>
+            <div class="bill-body" id="bill-body">
+            </div>
+            <div class="total">
+              <div class="total-text">
+                <p>Total</p>
+                <p>Discount</p>
+                <p>Grand Total</p>
+              </div>
+              <div class="total-num">
+                <p id="total"></p>
+                <p id="discount"></p>
+                <p id="gtotal"></p>
               </div>
             </div>
+            <!--<button type="submit" onclick="sendCheckedInputs()">Check Out</button>-->
+            <button type="submit" id="checkoutButton">Check Out</button>
           </div>
-          <%
-            }
-          %>
         </div>
-
-
-        <div class="bill">
-          <h2>Your Items</h2>
-          <div class="bill-body" id="bill-body">
-          </div>
-          <div class="total">
-            <div class="total-text">
-              <p>Total</p>
-              <p>Discount</p>
-              <p>Grand Total</p>
-            </div>
-            <div class="total-num">
-              <p id="total"></p>
-              <p id="discount"></p>
-              <p id="gtotal"></p>
-            </div>
-          </div>
-          <button type="submit" name="userId" value="<%=cuser.getUserId()%>">Check Out</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
     <script>
       function increaseValue(qtyId) {
         var qty = document.getElementById(qtyId);
@@ -225,57 +265,6 @@
         }
         console.log(number);
       }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll(".checkbox");
-        const bill_card = document.getElementById("bill-body");
-        const total = document.getElementById("total");
-        const discount = document.getElementById("discount");
-        const gtotal = document.getElementById("gtotal");
-        checkboxes.forEach(function (checkbox) {
-          checkbox.addEventListener("change", function () {
-            var t = 0, d = 0, g = 0, ch = 0;
-            const checkboxId = this.id;
-            const checkboxProduct = this.getElementsByClassName('prod' + checkboxId);
-            const divId = "div" + checkboxId.charAt(checkboxId.length - 1);
-            let divToRemove = document.getElementById(divId);
-            if (this.checked) {
-              if (!divToRemove) {
-                ch++;
-                const newDiv = document.createElement("div");
-                newDiv.id = divId;
-                newDiv.classList.add("bill-card")
-                newDiv.classList.add("content");
-                newDiv.innerHTML = "<div class='bill-image-container'><img src='images/product-images/" + checkboxProduct[0] + "' alt='Image' /></div><div class='bil-info-container'><p class='product-name'>" + checkboxProduct[1] + "</p><p class='product-price'>" + checkboxProduct[2] + "</p><p class='product-qty'>Qty:" + checkboxProduct[4] + "</p></div>";
-                t = t + parseFloat(checkboxProduct[2].innerText);
-                d = d + parseFloat(checkboxProduct[3].innerText);
-                g = g + (parseFloat(checkboxProduct[2].innerText) - (parseFloat(checkboxProduct[2].innerText) * parseFloat(checkboxProduct[3].innerText) / 100));
-                bill_card.appendChild(newDiv);
-              }
-            } else {
-              if (divToRemove) {
-                ch--;
-                if (t !== 0 && g !== 0 && d !== 0) {
-                  t = t - parseFloat(checkboxProduct[2].innerText);
-                  d = d - parseFloat(checkboxProduct[3].innerText);
-                  g = g - (parseFloat(checkboxProduct[2].innerText) - (parseFloat(checkboxProduct[2].innerText) * parseFloat(checkboxProduct[3].innerText) / 100));
-                } else {
-                  t = 0;
-                  d = 0;
-                  g = 0;
-                }
-                bill_card.removeChild(divToRemove);
-              }
-              total.innerText = t;
-              discount.innerText = d / ch + "%";
-              gtotal.innerText = g;
-
-            }
-          });
-        });
-      });
-
-
     </script>
   </body>
 </html>

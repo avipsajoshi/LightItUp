@@ -1,10 +1,12 @@
 package com.lightitup.dao;
 
 import com.lightitup.entities.Category;
+import com.lightitup.entities.Product;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class CategoryDao {
 
@@ -49,6 +51,21 @@ public class CategoryDao {
       w.printStackTrace();
     }
     return cat;
+  }
+
+  public int getNumberOfProductsInCategory(int categoryId) {
+    int num = 0;
+    try {
+      Session session = this.factory.openSession();
+      Query pq = session.createQuery("from Product where p.category.categoryId =:catid", Product.class);
+      pq.setParameter("catid", categoryId);
+      List<Product> list = pq.list();
+      num=list.size();
+      session.close();
+    } catch (Exception w) {
+      w.printStackTrace();
+    }
+    return num;
   }
 
 }

@@ -220,7 +220,10 @@ nav .navbar li:nth-child(2) {
   position: relative;
   font-family: Cinzel-Variable;
 }
-
+a{
+  color: var(--text);
+  text-decoration: none;
+}
 .search-container input::placeholder {
   padding-left: 0px;
   color: var(--text);

@@ -1,6 +1,7 @@
 #category-form input, #product-form input, textarea, select{
   padding: 15px;
   margin-right: 10px;
+  margin-bottom: 10px;
   width: 80%;
   border: 1px solid var(--action);
   outline: none;
@@ -10,7 +11,7 @@
 textarea{
   height: 40%;
 }
-.error-message {
+.error {
   color: red;
   font-style: italic;
   font-size: medium;

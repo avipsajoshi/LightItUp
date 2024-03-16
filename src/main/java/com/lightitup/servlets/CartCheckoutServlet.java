@@ -4,9 +4,10 @@
  */
 package com.lightitup.servlets;
 
-import com.lightitup.dao.UserDao;
 import com.lightitup.entities.User;
+import com.lightitup.entities.Cart;
 import com.lightitup.dao.ProductDao;
+import com.lightitup.dao.CartDao;
 import com.lightitup.entities.Product;
 import com.lightitup.dao.OrderDao;
 import com.lightitup.entities.OrderTable;
@@ -37,49 +38,121 @@ public class CartCheckoutServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-    
     try (PrintWriter out = response.getWriter()) {
+      String data = request.getQueryString();
+      out.println(data + "<br>");
       HttpSession httpSession = request.getSession();
-      String[] prodIds = request.getParameterValues("prodId");
-      int userId = Integer.parseInt(request.getParameter("userId"));
-      String[] cartQtys = request.getParameterValues("cart-qty");
-      int minLength = Math.min(prodIds.length, cartQtys.length);
-
-      OrderTable newOrder = null;
-      UserDao userDao = new UserDao(FactoryProvider.getFactory());
-      User currentUser = userDao.getUserById(userId);
-      ProductDao productDao = new ProductDao(FactoryProvider.getFactory());
-      OrderDao orderDao = new OrderDao(FactoryProvider.getFactory());
-      int count = 0;
-      double total = 0;
-      for (int i = 0; i < minLength; i++) {
-        int productId = Integer.parseInt(prodIds[i]);
-        int qty = Integer.parseInt(cartQtys[i]);
-        Product addProduct = productDao.getProductById(productId);
-        newOrder.setOrderProduct(addProduct);
-        newOrder.setOrderUser(currentUser);
-        newOrder.setQuantity(qty);
-        newOrder.setStatus("pending");
-        newOrder.setPayment("unpaid");
-        newOrder.setTotal(addProduct.getPriceAfterDiscount() * qty);
-        total += newOrder.getTotal();
-        boolean added = orderDao.addNewOrder(newOrder);
-        if (added == true) {
-          count++;
-          //add cartDao to delete the checked out item through prodId and userId
-        } else {
-          count--;
+      if (httpSession.getAttribute("logged_user") != null) {
+        User alreadyLogged = (User) httpSession.getAttribute("logged_user");
+        int userId = alreadyLogged.getUserId();
+        out.println("try" + "<br>");
+        ProductDao productDao = new ProductDao(FactoryProvider.getFactory());
+        CartDao cartDao = new CartDao(FactoryProvider.getFactory());
+        OrderDao orderDao = new OrderDao(FactoryProvider.getFactory());
+        int[][] cartQtyArray = new int[10][2]; // Assuming maximum 10 cart-qty values
+        int count = -1, checkFlag = -1, arrayIndex = -1;
+        boolean[] checkboxArray = new boolean[10];
+        int[] check = new int[10];
+        // Split the data on "&" to get individual key-value pairs
+        String[] keyValuePairs = data.split("&");
+        for (String pair : keyValuePairs) {
+          String[] parts = pair.split("=");
+          String key = parts[0];
+          String value = parts.length > 1 ? parts[1] : "";
+          out.println(key + ":" + value);
+          if (key.equals("userId")) {
+            userId = Integer.parseInt(value);
+            continue;
+          }
+          if (key.startsWith("cartqty-")) {
+            String[] qtyparts = key.split("-");
+            String qtykey = qtyparts[0];
+            String qtyvalue = qtyparts.length > 1 ? qtyparts[1] : "";
+            int indexs = Integer.parseInt(qtyvalue);
+            int productId = indexs;
+            arrayIndex++;
+            int quantity = Integer.parseInt(value);
+            cartQtyArray[arrayIndex][0] = productId;
+            cartQtyArray[arrayIndex][1] = quantity;
+            out.println(cartQtyArray[arrayIndex][0] + " = ");
+            out.println(cartQtyArray[arrayIndex][1]);
+            continue;
+          }
+          if (key.equals("checkbox")) {
+            checkFlag++;
+            out.println("here3");
+            check[checkFlag] = Integer.parseInt(value);
+            out.println(check[checkFlag]);
+            out.println("flag" + checkFlag);
+            out.println("flag" + checkFlag);
+            continue;
+          } else {
+            out.println("?????????????");
+          }
+          out.println(checkboxArray[checkFlag]);
+          out.println(checkFlag);
         }
-      }
-      if (count == minLength) {
-        httpSession.setAttribute("message", "Order Placed!");
-        httpSession.setAttribute("total", total);
-        response.sendRedirect("checkout.jsp");
+        double total = 0;
+        for (int j = 0; j <= checkFlag; j++) {
+          for (int i = 0; i <= arrayIndex; i++) {
+            if (check[j] == cartQtyArray[i][0] && cartQtyArray[i][1] != 0) {
+              int productId = cartQtyArray[i][0];
+              int quantity = cartQtyArray[i][1];
+              out.println("Product ID: " + productId + ", Quantity: " + quantity + "<br>");
+              Product addOrderProduct = productDao.getProductById(productId);
+              out.println(addOrderProduct.getpName());
+              out.println("<br>1234567890<br>");
+              out.println("gvjhbkiigucuc");
+              OrderTable newOrder = new OrderTable();
+              newOrder.setOrderProduct(addOrderProduct);
+              newOrder.setOrderUser(alreadyLogged);
+              newOrder.setQuantity(quantity);
+              newOrder.setStatus("pending");
+              newOrder.setPayment("paid");
+              newOrder.setTotal(addOrderProduct.getPriceAfterDiscount() * quantity);
+              total += newOrder.getTotal();
+              boolean added = orderDao.addNewOrder(newOrder);
+              if (added == true) {
+                count++;
+                out.println(count);
+              }
+            } 
+          }
+        }
+        out.println("count ");
+        out.println(count);
+        out.println(checkFlag);
+        total = total * 100;
+        if (count == checkFlag) {
+          httpSession.setAttribute("message", "Order Placed!");
+          httpSession.setAttribute("total", total);
+          response.sendRedirect("./checkout.jsp");
+//          for (int j = 0; j <= 1; j++) {
+//          for (int i = j; i <= 1; i++) {
+//            if (check[j] == cartQtyArray[i][0]) {
+//              int productId = cartQtyArray[i][0];
+//              Cart cr = cartDao.getCartItemByUserIdAndProductId(userId, productId);
+//              boolean deleted = cartDao.deleteCart(cr);
+//              if (deleted == true) {
+//                out.println("YE");
+//              }
+//              else{
+//                continue;
+//              }
+//            }
+//          }
+//        }
+          out.println(httpSession.getAttribute("message"));
+          out.println(httpSession.getAttribute("total"));
+        } else {
+          httpSession.setAttribute("message", "Error placing Order!");
+          out.println(httpSession.getAttribute("message"));
+          response.sendRedirect("cart.jsp");
+        }
       } else {
-        httpSession.setAttribute("message", "Error in placing Order!");
-        response.sendRedirect("cart.jsp");
+        httpSession.setAttribute("message", "Error");
+        response.sendRedirect("./login.jsp");
       }
-
     }
   }
 

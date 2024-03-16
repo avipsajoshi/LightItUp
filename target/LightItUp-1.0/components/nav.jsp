@@ -1,11 +1,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@page import="com.lightitup.dao.CategoryDao" %>
+<%@page import="com.lightitup.dao.CartDao" %>
+<%@page import="com.lightitup.dao.ProductDao" %>
+<%@page import="com.lightitup.dao.UserDao" %>
+<%@page import="com.lightitup.dao.OrderDao" %>
 <%@page import="com.lightitup.helper.FactoryProvider" %>
+<%@page import="com.lightitup.helper.Helper" %>
 <%@page import="com.lightitup.entities.User" %>
 <%@page import="com.lightitup.entities.Category" %>
 <%@page import="com.lightitup.entities.Product" %>
+<%@page import="com.lightitup.entities.OrderTable" %>
+<%@page import="com.lightitup.entities.Cart" %>
 <%@page import="java.util.List" %>
+<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,6 +30,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
       />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
       function showSidebar() {
         const sidebar = document.querySelector(".sidebar");
@@ -134,8 +143,8 @@
               </button>
               <input
                 type="text"
-                name="search-value"
-                id="search-value"
+                name="searchname"
+                id="searchname"
                 placeholder="Search"
                 />
             </form>
@@ -197,7 +206,7 @@
         </li>
         <li class="hideOnMobile search">
           <div class="search-container">
-            <form action="/SearchServlet" method="post" class="search-form">
+            <form action="./view.jsp?search=nan" method="get" class="search-form">
               <button
                 type="submit"
                 id="search_button"
@@ -207,8 +216,8 @@
               </button>
               <input
                 type="text"
-                name="search-value"
-                id="search-value"
+                name="searchname"
+                id="searchname"
                 placeholder="Search"
                 />
             </form>

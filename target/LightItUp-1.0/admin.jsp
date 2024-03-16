@@ -204,62 +204,52 @@
 
 
 //category form validation
-      categoryForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        if (
-                validateText(nameInput, nameError) &&
-                validateText(descriptionInput, descriptionError)
-                ) {
-          categoryForm.submit();
+      document.addEventListener('DOMContentLoaded', function () {
+
+
+        categoryForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (
+                  validateText(nameInput, nameError) &&
+                  validateText(descriptionInput, descriptionError)
+                  ) {
+            categoryForm.submit();
+          }
+        });
+
+        productForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (
+                  validateText(productNameInput, productNameError) && validateText(productDescriptionInput, productDescriptionError) && validateText(productPriceInput, productPriceError) && validateText(productQuantityInput, productQuantityError) && validateText(productDiscountInput, productDiscountError)
+                  ) {
+            productForm.submit();
+          }
+        });
+
+        function validateText(input, error_class) {
+          const namevalue = input.value.trim();
+          const error = error_class;
+          const nameregex = /^[a-zA-Z&+\-\/\d\s]+$/;
+          if (namevalue === "") {
+            setError(input, " Cannot be Empty", error);
+            return false;
+          } else {
+            removeError(input, error);
+            return true;
+          }
+        }
+        // Set error message
+        function setError(inputElement, message, errorId) {
+          const errorElement = errorId;
+          errorElement.textContent  = message;
+        }
+
+        // Remove error message
+        function removeError(inputElement, errorId) {
+          const errorElement = errorId;
+          errorElement.textContent  = "";
         }
       });
-
-      productForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        if (
-                validateText(productNameInput, productNameError) &&
-                validateText(productDescriptionInput, productDescriptionError) && validateText(productPriceInput, productPriceError) && validateText(productQuantityInput, productQuantityError) && validateText(productDiscountInput, productDiscountError)
-                ) {
-          productForm.submit();
-        }
-      });
-
-      function validateText(input, error_class) {
-        const namevalue = input.value.trim();
-        const error = error_class;
-        var flag =0;
-        const nameregex = /^[a-zA-Z\s]+$/;
-        if (namevalue === "") {
-          setError(input, " Cannot be Empty", error);
-          flag=1;
-          return false;
-        } else if (!nameregex.test(namevalue)) {
-          setError(input, " Cannot contain number.", error);
-          flag=1;
-          return false;
-        } else if(flag === 1 ){
-          removeError(input, error);
-          flag=0;
-          return true;
-        }else{
-          flag=0;
-          return true;
-        }
-      }
-      // Set error message
-      function setError(inputElement, message, errorId) {
-        const errorElement = document.getElementById(errorId);
-        errorElement.innerHTML = message;
-        inputElement.classList.add("error-message");
-      }
-
-      // Remove error message
-      function removeError(inputElement, errorId) {
-        const errorElement = document.getElementById(errorId);
-        errorElement.innerHTML = "";
-        inputElement.classList.remove("error-message");
-      }
-
     </script>
   </body>
 </html>

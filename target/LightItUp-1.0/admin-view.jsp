@@ -169,7 +169,7 @@
         }
         else if(view.trim().equals("categories")){
           CategoryDao acdao =new CategoryDao(FactoryProvider.getFactory());
-          List<Category> allCategories = acdao.getAllCategory();
+          List<Category> viewCategories = acdao.getAllCategory();
       %>
       <h3>Categories</h3>
       <hr>
@@ -178,11 +178,11 @@
         <th>Description</th>
         <th>Number of Products</th>
       </tr>
-      <%for(Category ac : allCategories){%>
+      <%for(Category ac : viewCategories){%>
       <tr>
         <td><%=ac.getCategoryTitle()%></td>
         <td><%=ac.getCategoryDescription()%></td>
-        <td><%=ac.getProducts().size()%></td>
+        <td><%=acdao.getNumberOfProductsInCategory(ac.getCategoryId())%></td>
       </tr>
       <%}%>
       <%

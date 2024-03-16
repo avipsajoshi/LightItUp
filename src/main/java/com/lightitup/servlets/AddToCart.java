@@ -106,7 +106,7 @@ public class AddToCart extends HttpServlet {
           }
         } else {
           httpSession.setAttribute("message", "Please Login First");
-          response.sendRedirect("login.jsp");
+          response.sendRedirect("./login.jsp");
         }
       } catch (Exception e) {
         //print error in console
