@@ -33,7 +33,7 @@ public class Initiate extends HttpServlet {
       String totalAmountStr = am.replaceAll("[^\\d.]", ""); // Remove non-numeric characters
       double amount = Double.parseDouble(totalAmountStr);
       String payload = "{\"return_url\":\"" + return_url + ",\"website_url\":\"http://localhost:9080\",\"amount\":" + amount + ",\"purchase_order_id\":\"" + purchase_order_id + "\",\"purchase_order_name\":\"" + purchase_order_name + "\",\"customer_info\":{\"name\":\"" + username + "\",\"email\":\"" + userEmail + "\",\"phone\":\"" + userPhone + "\"}}";
-      String testkey = "key a7d08a7866c04958b986d77d0daf28a2";
+      String testkey = "";
       String headers = "{'Authorization': '" + testkey + "','Content-Type': 'application/json',}";
       try {
         URL apiUrl = new URL(url);

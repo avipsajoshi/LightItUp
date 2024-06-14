@@ -30,7 +30,7 @@ public class PaymentServlet extends HttpServlet {
       String am = request.getParameter("amount"); 
       Double amount = Double.parseDouble(am);
       String payload = "{\"return_url\":\""+return_url+",\"website_url\":\"http://localhost:9080\",\"amount\":"+amount+",\"purchase_order_id\":\""+purchase_order_id+"\",\"purchase_order_name\":\""+purchase_order_name+"\"}";
-      String testkey = "59d6e256a2df425995429ec2ae7b0245";
+      String testkey = "";
       String headers = "{'Authorization': '"+testkey+"','Content-Type': 'application/json',}";
       try {
         URL apiUrl = new URL(url);
